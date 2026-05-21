@@ -13,20 +13,15 @@ class ELYNT_Chat_Button_Ajax_Handler
 		$this->db = new ELYNT_Chat_Button_DB_Manager();
 	}
 
-	private function verify_request()
+	public function ajax_get_list()
 	{
-		if (!isset($_POST['nonce']) || !wp_verify_nonce(wp_unslash($_POST['nonce']), 'ecb_admin_nonce')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
 			wp_send_json_error(array('message' => 'Invalid security token.'));
 		}
 
 		if (!current_user_can('manage_options')) {
 			wp_send_json_error(array('message' => 'Unauthorized access.'));
 		}
-	}
-
-	public function ajax_get_list()
-	{
-		$this->verify_request();
 
 		$buttons = $this->db->get_all_buttons();
 
@@ -39,7 +34,13 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_get_form()
 	{
-		$this->verify_request();
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+			wp_send_json_error(array('message' => 'Invalid security token.'));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'Unauthorized access.'));
+		}
 
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
 		$button = null;
@@ -57,7 +58,13 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_save_button()
 	{
-		$this->verify_request();
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+			wp_send_json_error(array('message' => 'Invalid security token.'));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'Unauthorized access.'));
+		}
 
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
 
@@ -93,7 +100,13 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_delete_button()
 	{
-		$this->verify_request();
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+			wp_send_json_error(array('message' => 'Invalid security token.'));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'Unauthorized access.'));
+		}
 
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
 		if ($button_id > 0) {
