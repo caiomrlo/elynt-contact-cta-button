@@ -36,11 +36,23 @@ jQuery(document).ready(function ($) {
 	function initIntlTelInput() {
 		var phoneInput = document.querySelector("#whatsapp_number");
 		if (phoneInput) {
+			// Destroy old instance if it exists to avoid memory leaks/duplicate listeners
+			if (iti && typeof iti.destroy === 'function') {
+				iti.destroy();
+			}
+
+			// Prepend '+' if the value exists and doesn't start with '+' so that
+			// the library can parse it as an international number and separate the dial code correctly.
+			var val = phoneInput.value;
+			if (val && !val.startsWith('+')) {
+				phoneInput.value = '+' + val;
+			}
+
 			iti = window.intlTelInput(phoneInput, {
 				initialCountry: "br",
-				utilsScript: ecb_admin.utils_script,
+				loadUtils: () => import(ecb_admin.utils_script),
 				separateDialCode: true,
-				preferredCountries: ["br", "us", "pt"]
+				countryOrder: ["br", "us", "pt"]
 			});
 		}
 	}
@@ -105,6 +117,13 @@ jQuery(document).ready(function ($) {
 		// Get full international number from intl-tel-input
 		var fullNumber = '';
 		if (iti) {
+			// Validate the phone number using intl-tel-input API before submitting
+			if (!iti.isValidNumber()) {
+				$submitBtn.prop('disabled', false);
+				$spinner.removeClass('is-active');
+				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Por favor, insira um número de telefone válido.</div>');
+				return;
+			}
 			fullNumber = iti.getNumber().replace('+', '');
 		} else {
 			fullNumber = $('#whatsapp_number').val().replace(/\D/g, '');

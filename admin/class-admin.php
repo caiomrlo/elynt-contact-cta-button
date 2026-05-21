@@ -34,7 +34,7 @@ class ELYNT_Chat_Button_Admin
 			return;
 		}
 
-		wp_enqueue_style('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/css/intlTelInput.min.css', array(), '23.0.1', 'all');
+		wp_enqueue_style('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/css/intlTelInput.min.css', array(), '28.1.0', 'all');
 		wp_enqueue_style($this->plugin_name, ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/assets/css/admin-style.css', array('intl-tel-input'), $this->version, 'all');
 	}
 
@@ -44,7 +44,7 @@ class ELYNT_Chat_Button_Admin
 			return;
 		}
 
-		wp_enqueue_script('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/intlTelInput.min.js', array(), '23.0.1', true);
+		wp_enqueue_script('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/intlTelInput.min.js', array(), '28.1.0', true);
 		wp_enqueue_script($this->plugin_name, ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/assets/js/admin-app.js', array('jquery', 'intl-tel-input'), $this->version, true);
 
 		wp_localize_script($this->plugin_name, 'ecb_admin', array(
