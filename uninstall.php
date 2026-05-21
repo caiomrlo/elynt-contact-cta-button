@@ -20,4 +20,5 @@ global $wpdb;
  * Cleanup database data.
  * This removes all chat buttons and configurations when the plugin is deleted.
  */
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query( "DROP TABLE IF EXISTS `{$wpdb->prefix}ELYNT_chat_buttons`" );
