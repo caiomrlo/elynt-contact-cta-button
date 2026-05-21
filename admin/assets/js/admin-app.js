@@ -5,9 +5,9 @@ jQuery(document).ready(function ($) {
 
 	function loadList() {
 		$appContainer.html('<div class="ecb-loading">Loading...</div>');
-		$.post(ecb_admin.ajax_url, {
-			action: 'ecb_get_list',
-			nonce: ecb_admin.nonce
+		$.post(elyncoct_admin.ajax_url, {
+			action: 'elyncoct_get_list',
+			nonce: elyncoct_admin.nonce
 		}, function (response) {
 			if (response.success) {
 				$appContainer.html(response.data.html);
@@ -19,9 +19,9 @@ jQuery(document).ready(function ($) {
 
 	function loadForm(id) {
 		$appContainer.html('<div class="ecb-loading">Loading form...</div>');
-		$.post(ecb_admin.ajax_url, {
-			action: 'ecb_get_form',
-			nonce: ecb_admin.nonce,
+		$.post(elyncoct_admin.ajax_url, {
+			action: 'elyncoct_get_form',
+			nonce: elyncoct_admin.nonce,
 			id: id
 		}, function (response) {
 			if (response.success) {
@@ -50,7 +50,7 @@ jQuery(document).ready(function ($) {
 
 			iti = window.intlTelInput(phoneInput, {
 				initialCountry: "br",
-				loadUtils: () => import(ecb_admin.utils_script),
+				loadUtils: () => import(elyncoct_admin.utils_script),
 				separateDialCode: true,
 				countryOrder: ["br", "us", "pt"]
 			});
@@ -80,9 +80,9 @@ jQuery(document).ready(function ($) {
 			var $btn = $(this);
 			$btn.prop('disabled', true).text('Deleting...');
 
-			$.post(ecb_admin.ajax_url, {
-				action: 'ecb_delete_button',
-				nonce: ecb_admin.nonce,
+			$.post(elyncoct_admin.ajax_url, {
+				action: 'elyncoct_delete_button',
+				nonce: elyncoct_admin.nonce,
 				id: id
 			}, function (response) {
 				if (response.success) {
@@ -139,10 +139,10 @@ jQuery(document).ready(function ($) {
 			return item;
 		});
 
-		formData.push({ name: 'action', value: 'ecb_save_button' });
-		formData.push({ name: 'nonce', value: ecb_admin.nonce });
+		formData.push({ name: 'action', value: 'elyncoct_save_button' });
+		formData.push({ name: 'nonce', value: elyncoct_admin.nonce });
 
-		$.post(ecb_admin.ajax_url, formData, function (response) {
+		$.post(elyncoct_admin.ajax_url, formData, function (response) {
 			$submitBtn.prop('disabled', false);
 			$spinner.removeClass('is-active');
 

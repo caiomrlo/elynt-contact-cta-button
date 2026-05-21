@@ -5,7 +5,7 @@
  * @link       https://developer.wordpress.org/plugins/the-basics/uninstall-methods/
  * @since      1.0.0
  *
- * @package    ELYNT_Chat_Button
+ * @package    ELYNCOCT_Chat_Button
  */
 
 // If uninstall not called from WordPress, then exit.
@@ -21,4 +21,4 @@ global $wpdb;
  * This removes all chat buttons and configurations when the plugin is deleted.
  */
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-$wpdb->query( "DROP TABLE IF EXISTS `{$wpdb->prefix}ELYNT_chat_buttons`" );
+$wpdb->query( "DROP TABLE IF EXISTS `{$wpdb->prefix}elyncoct_chat_buttons`" );

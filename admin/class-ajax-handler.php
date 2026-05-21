@@ -3,19 +3,19 @@
 if (!defined('WPINC')) {
 	exit;
 }
-class ELYNT_Chat_Button_Ajax_Handler
+class ELYNCOCT_Chat_Button_Ajax_Handler
 {
 
 	private $db;
 
 	public function __construct()
 	{
-		$this->db = new ELYNT_Chat_Button_DB_Manager();
+		$this->db = new ELYNCOCT_Chat_Button_DB_Manager();
 	}
 
 	public function ajax_get_list()
 	{
-		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
 			wp_send_json_error(array('message' => 'Invalid security token.'));
 		}
 
@@ -23,10 +23,10 @@ class ELYNT_Chat_Button_Ajax_Handler
 			wp_send_json_error(array('message' => 'Unauthorized access.'));
 		}
 
-		$buttons = $this->db->get_all_buttons();
+		$elyncoct_buttons = $this->db->get_all_buttons();
 
 		ob_start();
-		require ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'admin/views/partials/list.php';
+		require ELYNCOCT_PLUGIN_DIR . 'admin/views/partials/list.php';
 		$html = ob_get_clean();
 
 		wp_send_json_success(array('html' => $html));
@@ -34,7 +34,7 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_get_form()
 	{
-		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
 			wp_send_json_error(array('message' => 'Invalid security token.'));
 		}
 
@@ -43,14 +43,14 @@ class ELYNT_Chat_Button_Ajax_Handler
 		}
 
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
-		$button = null;
+		$elyncoct_button = null;
 
 		if ($button_id > 0) {
-			$button = $this->db->get_button($button_id);
+			$elyncoct_button = $this->db->get_button($button_id);
 		}
 
 		ob_start();
-		require ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'admin/views/partials/form.php';
+		require ELYNCOCT_PLUGIN_DIR . 'admin/views/partials/form.php';
 		$html = ob_get_clean();
 
 		wp_send_json_success(array('html' => $html));
@@ -58,7 +58,7 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_save_button()
 	{
-		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
 			wp_send_json_error(array('message' => 'Invalid security token.'));
 		}
 
@@ -100,7 +100,7 @@ class ELYNT_Chat_Button_Ajax_Handler
 
 	public function ajax_delete_button()
 	{
-		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ecb_admin_nonce')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
 			wp_send_json_error(array('message' => 'Invalid security token.'));
 		}
 

@@ -21,33 +21,33 @@ if (!defined('WPINC')) {
 /**
  * Currently plugin version.
  */
-define('ELYNT_CHAT_BUTTON_VERSION', '1.0.0');
-define('ELYNT_CHAT_BUTTON_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('ELYNT_CHAT_BUTTON_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('ELYNCOCT_VERSION', '1.0.0');
+define('ELYNCOCT_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('ELYNCOCT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 /**
  * The code that runs during plugin activation.
  */
-function activate_elynt_contact_cta_button()
+function elyncoct_activate_contact_cta_button()
 {
-	require_once ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'includes/class-activator.php';
-	ELYNT_Chat_Button_Activator::activate();
+	require_once ELYNCOCT_PLUGIN_DIR . 'includes/class-activator.php';
+	ELYNCOCT_Chat_Button_Activator::activate();
 }
 
-register_activation_hook(__FILE__, 'activate_elynt_contact_cta_button');
+register_activation_hook(__FILE__, 'elyncoct_activate_contact_cta_button');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require_once ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'includes/class-elynt-contact-cta-button.php';
+require_once ELYNCOCT_PLUGIN_DIR . 'includes/class-elynt-contact-cta-button.php';
 
 /**
  * Begins execution of the plugin.
  */
-function run_ELYNT_chat_button()
+function elyncoct_run_contact_cta_button()
 {
-	$plugin = new ELYNT_Chat_Button();
+	$plugin = new ELYNCOCT_Chat_Button();
 	$plugin->run();
 }
-run_ELYNT_chat_button();
+elyncoct_run_contact_cta_button();

@@ -3,7 +3,7 @@
 if (!defined('WPINC')) {
 	exit;
 }
-class ELYNT_Chat_Button_Admin
+class ELYNCOCT_Chat_Button_Admin
 {
 
 	private $plugin_name;
@@ -34,8 +34,8 @@ class ELYNT_Chat_Button_Admin
 			return;
 		}
 
-		wp_enqueue_style('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/css/intlTelInput.min.css', array(), '28.1.0', 'all');
-		wp_enqueue_style($this->plugin_name, ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/assets/css/admin-style.css', array('intl-tel-input'), $this->version, 'all');
+		wp_enqueue_style('intl-tel-input', ELYNCOCT_PLUGIN_URL . 'admin/vendors/intl-tel-input/css/intlTelInput.min.css', array(), '28.1.0', 'all');
+		wp_enqueue_style($this->plugin_name, ELYNCOCT_PLUGIN_URL . 'admin/assets/css/admin-style.css', array('intl-tel-input'), $this->version, 'all');
 	}
 
 	public function enqueue_scripts($hook)
@@ -44,19 +44,19 @@ class ELYNT_Chat_Button_Admin
 			return;
 		}
 
-		wp_enqueue_script('intl-tel-input', ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/intlTelInput.min.js', array(), '28.1.0', true);
-		wp_enqueue_script($this->plugin_name, ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/assets/js/admin-app.js', array('jquery', 'intl-tel-input'), $this->version, true);
+		wp_enqueue_script('intl-tel-input', ELYNCOCT_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/intlTelInput.min.js', array(), '28.1.0', true);
+		wp_enqueue_script($this->plugin_name, ELYNCOCT_PLUGIN_URL . 'admin/assets/js/admin-app.js', array('jquery', 'intl-tel-input'), $this->version, true);
 
-		wp_localize_script($this->plugin_name, 'ecb_admin', array(
+		wp_localize_script($this->plugin_name, 'elyncoct_admin', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('ecb_admin_nonce'),
-			'utils_script' => ELYNT_CHAT_BUTTON_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/utils.js'
+			'nonce' => wp_create_nonce('elyncoct_admin_nonce'),
+			'utils_script' => ELYNCOCT_PLUGIN_URL . 'admin/vendors/intl-tel-input/js/utils.js'
 		));
 	}
 
 	public function display_plugin_setup_page()
 	{
-		require_once ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'admin/views/app-container.php';
+		require_once ELYNCOCT_PLUGIN_DIR . 'admin/views/app-container.php';
 	}
 
 	/**
@@ -66,7 +66,7 @@ class ELYNT_Chat_Button_Admin
 	 */
 	private function get_menu_icon()
 	{
-		$icon_path = ELYNT_CHAT_BUTTON_PLUGIN_DIR . 'admin/assets/icon-base64.php';
+		$icon_path = ELYNCOCT_PLUGIN_DIR . 'admin/assets/icon-base64.php';
 		if (file_exists($icon_path)) {
 			return include $icon_path;
 		}

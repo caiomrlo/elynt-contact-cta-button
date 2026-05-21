@@ -45,9 +45,9 @@ The plugin follows a modular pattern, isolating database operations from the pre
 ### 3.1. Core Logic (`includes/`)
 **Description:** The heart of the plugin. It initializes the system, registers all necessary hooks, and manages database interactions.
 **Key Classes:**
-*   `Elynt_Chat_Button`: The main orchestrator that wires up `Admin`, `Public`, and `AJAX` classes.
-*   `Elynt_Chat_Button_DB_Manager`: Encapsulates all SQL queries. Controllers must use this manager rather than writing raw SQL.
-*   `Elynt_Chat_Button_Activator`: Runs on plugin activation to ensure the required custom table is created using `dbDelta`.
+*   `ELYNCOCT_Chat_Button`: The main orchestrator that wires up `Admin`, `Public`, and `AJAX` classes.
+*   `ELYNCOCT_Chat_Button_DB_Manager`: Encapsulates all SQL queries. Controllers must use this manager rather than writing raw SQL.
+*   `ELYNCOCT_Chat_Button_Activator`: Runs on plugin activation to ensure the required custom table is created using `dbDelta`.
 *   `uninstall.php`: Automatically called by WordPress when the plugin is deleted. It performs a complete cleanup by dropping the custom database tables.
 
 ### 3.2. Frontend Guides
@@ -72,7 +72,7 @@ The plugin follows a modular pattern, isolating database operations from the pre
 ## 4. Data Stores
 
 ### 4.1. Custom Database Table
-**Name:** `{prefix}elynt_chat_buttons`
+**Name:** `{prefix}elyncoct_chat_buttons`
 **Type:** MySQL (WordPress Custom Table)
 **Purpose:** Stores all configured chat buttons independently of the `wp_posts` or `wp_options` tables to guarantee performance and data integrity.
 **Key Columns:**

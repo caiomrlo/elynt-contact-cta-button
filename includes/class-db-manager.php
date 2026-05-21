@@ -7,7 +7,7 @@ if (!defined('WPINC')) {
 /**
  * Handles all database operations for the buttons.
  */
-class ELYNT_Chat_Button_DB_Manager
+class ELYNCOCT_Chat_Button_DB_Manager
 {
 
 	private $table_name;
@@ -15,7 +15,7 @@ class ELYNT_Chat_Button_DB_Manager
 	public function __construct()
 	{
 		global $wpdb;
-		$this->table_name = $wpdb->prefix . 'ELYNT_chat_buttons';
+		$this->table_name = $wpdb->prefix . 'elyncoct_chat_buttons';
 	}
 
 	public function get_all_buttons()
@@ -23,7 +23,7 @@ class ELYNT_Chat_Button_DB_Manager
 		global $wpdb;
 
 		$cache_key   = 'all_buttons';
-		$cache_group = 'elynt_chat_buttons';
+		$cache_group = 'elyncoct_chat_buttons';
 		$results     = wp_cache_get($cache_key, $cache_group);
 
 		if (false === $results) {
@@ -46,7 +46,7 @@ class ELYNT_Chat_Button_DB_Manager
 		global $wpdb;
 
 		$cache_key   = 'active_fixed_buttons';
-		$cache_group = 'elynt_chat_buttons';
+		$cache_group = 'elyncoct_chat_buttons';
 		$results     = wp_cache_get($cache_key, $cache_group);
 
 		if (false === $results) {
@@ -69,7 +69,7 @@ class ELYNT_Chat_Button_DB_Manager
 		global $wpdb;
 
 		$cache_key   = 'button_' . $id;
-		$cache_group = 'elynt_chat_buttons';
+		$cache_group = 'elyncoct_chat_buttons';
 		$row         = wp_cache_get($cache_key, $cache_group);
 
 		if (false === $row) {
@@ -105,8 +105,8 @@ class ELYNT_Chat_Button_DB_Manager
 		$insert_id = $wpdb->insert_id;
 
 		if ($insert_id) {
-			wp_cache_delete('all_buttons', 'elynt_chat_buttons');
-			wp_cache_delete('active_fixed_buttons', 'elynt_chat_buttons');
+			wp_cache_delete('all_buttons', 'elyncoct_chat_buttons');
+			wp_cache_delete('active_fixed_buttons', 'elyncoct_chat_buttons');
 		}
 
 		return $insert_id;
@@ -130,9 +130,9 @@ class ELYNT_Chat_Button_DB_Manager
 			array('%d')
 		);
 
-		wp_cache_delete('all_buttons', 'elynt_chat_buttons');
-		wp_cache_delete('active_fixed_buttons', 'elynt_chat_buttons');
-		wp_cache_delete('button_' . $id, 'elynt_chat_buttons');
+		wp_cache_delete('all_buttons', 'elyncoct_chat_buttons');
+		wp_cache_delete('active_fixed_buttons', 'elyncoct_chat_buttons');
+		wp_cache_delete('button_' . $id, 'elyncoct_chat_buttons');
 
 		return true;
 	}
@@ -148,9 +148,9 @@ class ELYNT_Chat_Button_DB_Manager
 			array('%d')
 		);
 
-		wp_cache_delete('all_buttons', 'elynt_chat_buttons');
-		wp_cache_delete('active_fixed_buttons', 'elynt_chat_buttons');
-		wp_cache_delete('button_' . $id, 'elynt_chat_buttons');
+		wp_cache_delete('all_buttons', 'elyncoct_chat_buttons');
+		wp_cache_delete('active_fixed_buttons', 'elyncoct_chat_buttons');
+		wp_cache_delete('button_' . $id, 'elyncoct_chat_buttons');
 
 		return true;
 	}

@@ -7,7 +7,7 @@ if (!defined('WPINC')) {
 /**
  * Fired during plugin activation.
  */
-class ELYNT_Chat_Button_Activator
+class ELYNCOCT_Chat_Button_Activator
 {
 
 	/**
@@ -22,7 +22,7 @@ class ELYNT_Chat_Button_Activator
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
-		$sql = "CREATE TABLE `{$wpdb->prefix}ELYNT_chat_buttons` (
+		$sql = "CREATE TABLE `{$wpdb->prefix}elyncoct_chat_buttons` (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			name varchar(255) NOT NULL,
 			type varchar(50) NOT NULL,
