@@ -1,0 +1,75 @@
+.ecb-whatsapp-button {
+	display: inline-flex;
+	align-items: center;
+	background-color: #25D366;
+	color: #fff;
+	text-decoration: none;
+	padding: 12px 20px;
+	border-radius: 50px;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+	transition: background-color 0.3s ease, transform 0.3s ease;
+	z-index: 99999;
+}
+
+.ecb-whatsapp-button:hover,
+.ecb-whatsapp-button:focus {
+	background-color: #1ebe57;
+	transform: translateY(-2px);
+	color: #fff;
+}
+
+.ecb-whatsapp-button svg {
+	width: 24px;
+	height: 24px;
+	fill: currentColor;
+}
+
+.ecb-whatsapp-text {
+	margin-left: 10px;
+}
+
+/* Fixed Positioning */
+.ecb-fixed {
+	position: fixed;
+	bottom: 20px;
+}
+
+.ecb-pos-left {
+	left: 20px;
+}
+
+.ecb-pos-right {
+	right: 20px;
+}
+
+.ecb-pos-center {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.ecb-pos-center:hover,
+.ecb-pos-center:focus {
+	transform: translateX(-50%) translateY(-2px);
+}
+
+/* Icon Only Layout */
+.ecb-whatsapp-button.ecb-icon-only {
+	padding: 0;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	justify-content: center;
+}
+
+.ecb-whatsapp-button.ecb-icon-only .ecb-whatsapp-text {
+	display: none;
+}
+
+.ecb-whatsapp-button.ecb-icon-only svg {
+	width: 28px;
+	height: 28px;
+	margin: 0;
+}
