@@ -80,6 +80,8 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 				'initial_message' => isset($_POST['initial_message']) ? sanitize_textarea_field(wp_unslash($_POST['initial_message'])) : '',
 				'bg_color' => isset($_POST['bg_color']) ? sanitize_hex_color(wp_unslash($_POST['bg_color'])) : '#25D366',
 				'text_color' => isset($_POST['text_color']) ? sanitize_hex_color(wp_unslash($_POST['text_color'])) : '#ffffff',
+				'icon_size' => isset($_POST['icon_size']) ? intval(wp_unslash($_POST['icon_size'])) : 24,
+				'font_size' => isset($_POST['font_size']) ? intval(wp_unslash($_POST['font_size'])) : 16,
 			)
 		);
 

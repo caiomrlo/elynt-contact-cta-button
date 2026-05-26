@@ -19,7 +19,7 @@ class ELYNCOCT_Chat_Button_Admin
 	{
 		add_menu_page(
 			'Elynt Contact CTA Button',
-			'Elynt Contact CTA Button',
+			'Contact Button',
 			'manage_options',
 			$this->plugin_name,
 			array($this, 'display_plugin_setup_page'),

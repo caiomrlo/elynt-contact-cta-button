@@ -15,6 +15,8 @@ $elyncoct_layout = isset($elyncoct_options['layout']) ? $elyncoct_options['layou
 $elyncoct_initial_message = isset($elyncoct_options['initial_message']) ? $elyncoct_options['initial_message'] : '';
 $elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['bg_color'] : '#25D366';
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
+$elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
+$elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
 $elyncoct_whatsapp_url = "https://wa.me/{$elyncoct_number}";
 if (!empty($elyncoct_initial_message)) {
 	$elyncoct_whatsapp_url .= "?text=" . rawurlencode($elyncoct_initial_message);
@@ -34,12 +36,17 @@ if ($elyncoct_layout === 'icon_only') {
 }
 
 $elyncoct_class_string = implode(' ', $elyncoct_classes);
-$elyncoct_style = "background-color: " . esc_attr($elyncoct_bg_color) . "; color: " . esc_attr($elyncoct_text_color) . ";";
+$elyncoct_style = "background-color: " . esc_attr($elyncoct_bg_color) . "; color: " . esc_attr($elyncoct_text_color) . "; font-size: " . intval($elyncoct_font_size) . "px;";
+if ($elyncoct_layout === 'icon_only') {
+	$elyncoct_container_size = intval($elyncoct_icon_size) * 2;
+	$elyncoct_style .= " width: {$elyncoct_container_size}px; height: {$elyncoct_container_size}px;";
+}
+$elyncoct_svg_style = "fill: " . esc_attr($elyncoct_text_color) . "; width: " . intval($elyncoct_icon_size) . "px; height: " . intval($elyncoct_icon_size) . "px;";
 ?>
 
 <a href="<?php echo esc_url($elyncoct_whatsapp_url); ?>" class="<?php echo esc_attr($elyncoct_class_string); ?>"
 	style="<?php echo esc_attr($elyncoct_style); ?>" target="_blank" rel="noopener noreferrer">
-	<svg style=" fill: <?php echo esc_attr($elyncoct_text_color); ?>;" xmlns="http://www.w3.org/2000/svg"
+	<svg style="<?php echo esc_attr($elyncoct_svg_style); ?>" xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 640
 	640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
 	<path

@@ -295,6 +295,7 @@ body .ecb-admin-wrap .ecb-required {
 
 body .ecb-admin-wrap .ecb-form-group input[type="text"],
 body .ecb-admin-wrap .ecb-form-group input[type="tel"],
+body .ecb-admin-wrap .ecb-form-group input[type="number"],
 body .ecb-admin-wrap .ecb-form-group select,
 body .ecb-admin-wrap .ecb-form-group textarea {
 	width: 100%;
@@ -315,6 +316,7 @@ body .ecb-admin-wrap .ecb-form-group textarea {
 
 body .ecb-admin-wrap .ecb-form-group input[type="text"]:focus,
 body .ecb-admin-wrap .ecb-form-group input[type="tel"]:focus,
+body .ecb-admin-wrap .ecb-form-group input[type="number"]:focus,
 body .ecb-admin-wrap .ecb-form-group select:focus,
 body .ecb-admin-wrap .ecb-form-group textarea:focus {
 	border-color: #4f46e5;

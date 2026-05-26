@@ -17,6 +17,8 @@ $elyncoct_layout = isset($elyncoct_options['layout']) ? $elyncoct_options['layou
 $elyncoct_initial_message = isset($elyncoct_options['initial_message']) ? $elyncoct_options['initial_message'] : '';
 $elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['bg_color'] : '#25D366';
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
+$elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
+$elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
 ?>
 <div class="ecb-header-actions">
 	<h2>
@@ -112,6 +114,20 @@ $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_option
 					<label for="text_color">Text/Icon Color</label>
 					<input name="text_color" type="color" id="text_color"
 						value="<?php echo esc_attr($elyncoct_text_color); ?>">
+				</div>
+
+				<div class="ecb-form-group">
+					<label for="icon_size">Icon Size (px)</label>
+					<input name="icon_size" type="number" id="icon_size" min="10" max="100"
+						value="<?php echo esc_attr($elyncoct_icon_size); ?>">
+					<p class="ecb-help-text">Default is 24px.</p>
+				</div>
+
+				<div class="ecb-form-group">
+					<label for="font_size">Font Size (px)</label>
+					<input name="font_size" type="number" id="font_size" min="10" max="100"
+						value="<?php echo esc_attr($elyncoct_font_size); ?>">
+					<p class="ecb-help-text">Default is 16px.</p>
 				</div>
 
 				<div class="ecb-form-group">
