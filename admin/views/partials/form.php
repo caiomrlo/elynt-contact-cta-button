@@ -19,6 +19,15 @@ $elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['b
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
 $elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
 $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
+
+$elyncoct_display_conditions = isset($elyncoct_options['display_conditions']) ? $elyncoct_options['display_conditions'] : array();
+$elyncoct_target = isset($elyncoct_display_conditions['target']) ? $elyncoct_display_conditions['target'] : 'everywhere';
+$elyncoct_post_types_config = isset($elyncoct_display_conditions['post_types']) ? $elyncoct_display_conditions['post_types'] : array();
+
+$elyncoct_public_post_types = get_post_types(array('public' => true), 'objects');
+if (isset($elyncoct_public_post_types['attachment'])) {
+	unset($elyncoct_public_post_types['attachment']);
+}
 ?>
 <div class="ecb-header-actions">
 	<h2>
@@ -90,6 +99,75 @@ $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_o
 						<option value="right" <?php selected($elyncoct_position, 'right'); ?>>Bottom Right</option>
 						<option value="center" <?php selected($elyncoct_position, 'center'); ?>>Bottom Center</option>
 						</select>
+				</div>
+
+				<div id="row_button_targeting" class="ecb-form-group" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+					<label for="display_target">Display Targeting</label>
+					<select name="display_conditions[target]" id="display_target">
+						<option value="everywhere" <?php selected($elyncoct_target, 'everywhere'); ?>>Todo o site (Everywhere)</option>
+						<option value="custom" <?php selected($elyncoct_target, 'custom'); ?>>Páginas / Posts específicos (Custom)</option>
+					</select>
+
+					<div class="ecb-targeting-custom-settings" style="<?php echo esc_attr($elyncoct_target === 'custom' ? '' : 'display: none;'); ?>">
+						<label style="font-weight:600; margin-bottom:10px; display:block;">Exibir nos tipos de posts:</label>
+						<div class="ecb-post-types-list">
+							<?php foreach ($elyncoct_public_post_types as $pt_name => $pt_obj) : 
+								$pt_data = isset($elyncoct_post_types_config[$pt_name]) ? $elyncoct_post_types_config[$pt_name] : array();
+								$enabled = isset($elyncoct_post_types_config[$pt_name]);
+								$condition = isset($pt_data['condition']) ? $pt_data['condition'] : 'all';
+								$selected_ids = isset($pt_data['ids']) ? $pt_data['ids'] : array();
+							?>
+								<div class="ecb-post-type-row" data-post-type="<?php echo esc_attr($pt_name); ?>">
+									<label class="ecb-checkbox-label">
+										<input type="checkbox" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][enabled]" class="ecb-pt-enable-checkbox" value="1" <?php checked($enabled, true); ?>>
+										<?php echo esc_html($pt_obj->labels->name); ?>
+									</label>
+									
+									<div class="ecb-pt-settings" style="<?php echo esc_attr($enabled ? '' : 'display: none;'); ?>">
+										<div class="ecb-radio-group">
+											<label>
+												<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="all" <?php checked($condition, 'all'); ?>>
+												Todos os <?php echo esc_html($pt_obj->labels->name); ?>
+											</label>
+											<label>
+												<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="specific" <?php checked($condition, 'specific'); ?>>
+												Selecionar manualmente
+											</label>
+										</div>
+										
+										<div class="ecb-pt-specific-selection" style="<?php echo esc_attr($condition === 'specific' ? '' : 'display: none;'); ?>">
+											<div class="ecb-autocomplete-wrapper">
+												<input type="text" class="ecb-post-search-input" placeholder="Buscar <?php echo esc_attr($pt_obj->labels->singular_name); ?>...">
+												<span class="spinner ecb-search-spinner"></span>
+												<div class="ecb-search-results" style="display: none;"></div>
+											</div>
+											<div class="ecb-selected-posts-tags">
+												<?php 
+												if (!empty($selected_ids)) {
+													$posts = get_posts(array(
+														'post_type' => $pt_name,
+														'post__in' => $selected_ids,
+														'posts_per_page' => -1,
+														'post_status' => 'any'
+													));
+													foreach ($posts as $p) {
+														?>
+														<span class="ecb-post-tag" data-id="<?php echo esc_attr($p->ID); ?>">
+															<?php echo esc_html($p->post_title); ?>
+															<input type="hidden" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][ids][]" value="<?php echo esc_attr($p->ID); ?>">
+															<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>
+														</span>
+														<?php
+													}
+												}
+												?>
+											</div>
+										</div>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					</div>
 				</div>
 
 				<div class="ecb-form-group">

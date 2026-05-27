@@ -49,6 +49,7 @@ class ELYNCOCT_Chat_Button
 		add_action('wp_ajax_elyncoct_get_form', array($plugin_ajax, 'ajax_get_form'));
 		add_action('wp_ajax_elyncoct_save_button', array($plugin_ajax, 'ajax_save_button'));
 		add_action('wp_ajax_elyncoct_delete_button', array($plugin_ajax, 'ajax_delete_button'));
+		add_action('wp_ajax_elyncoct_search_posts', array($plugin_ajax, 'ajax_search_posts'));
 	}
 
 	private function define_public_hooks()

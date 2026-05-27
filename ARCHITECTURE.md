@@ -80,4 +80,16 @@ The plugin follows a modular pattern, isolating database operations from the pre
 *   `name`: Internal identification name.
 *   `type`: Defines the rendering behavior (`fixed` or `inline`).
 *   `status`: Toggle visibility (`active` or `inactive`).
-*   `options`: A serialized JSON string containing specific configurations (e.g., `whatsapp_number`, `button_text`, `position`).
+*   `options`: A serialized JSON string containing specific configurations:
+    *   `text` (string): Button Call-to-Action text.
+    *   `number` (string): WhatsApp phone number in international format.
+    *   `position` (string): Fixed layout position on screen (`left`, `right`, `center`).
+    *   `layout` (string): Visual layout style (`standard` or `icon_only`).
+    *   `initial_message` (string): Pre-filled text message for the WhatsApp chat.
+    *   `bg_color` / `text_color` (string): Color hex codes.
+    *   `icon_size` / `font_size` (int): Element dimensions in pixels.
+    *   `display_conditions` (array): Configures conditional visibility for Fixed buttons on the frontend:
+        *   `target` (string): `'everywhere'` (default) or `'custom'`.
+        *   `post_types` (array): List of target post types (e.g., `'post'`, `'page'`) containing:
+            *   `condition` (string): `'all'` (display on all singular pages of this post type) or `'specific'` (display only on manually selected posts).
+            *   `ids` (array): Array of integer post IDs to target when the condition is set to `'specific'`.

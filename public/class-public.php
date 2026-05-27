@@ -31,8 +31,50 @@ class ELYNCOCT_Chat_Button_Public
 		}
 
 		foreach ($elyncoct_buttons as $elyncoct_button) {
-			$this->load_button_view($elyncoct_button);
+			if ($this->should_display_button($elyncoct_button)) {
+				$this->load_button_view($elyncoct_button);
+			}
 		}
+	}
+
+	private function should_display_button($elyncoct_button)
+	{
+		$options = isset($elyncoct_button['options']) ? $elyncoct_button['options'] : array();
+		$conditions = isset($options['display_conditions']) ? $options['display_conditions'] : array();
+		
+		$target = isset($conditions['target']) ? $conditions['target'] : 'everywhere';
+		
+		if ($target === 'everywhere') {
+			return true;
+		}
+		
+		if ($target === 'custom') {
+			if (!is_singular()) {
+				return false;
+			}
+			
+			$current_post_type = get_post_type();
+			$post_types = isset($conditions['post_types']) ? $conditions['post_types'] : array();
+			
+			if (!isset($post_types[$current_post_type])) {
+				return false;
+			}
+			
+			$pt_condition = $post_types[$current_post_type];
+			$condition = isset($pt_condition['condition']) ? $pt_condition['condition'] : 'all';
+			
+			if ($condition === 'all') {
+				return true;
+			}
+			
+			if ($condition === 'specific') {
+				$ids = isset($pt_condition['ids']) ? (array) $pt_condition['ids'] : array();
+				$current_id = get_the_ID();
+				return in_array($current_id, $ids, true);
+			}
+		}
+		
+		return false;
 	}
 
 	public function render_inline_button_shortcode($atts)

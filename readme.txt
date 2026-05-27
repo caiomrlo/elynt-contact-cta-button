@@ -4,7 +4,7 @@ Donate link: https://github.com/caiomrlo/
 Tags: whatsapp, chat, contact, button, click to chat
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ For Inline buttons, the plugin provides a shortcode that you can copy and paste 
 Yes! You can create and manage multiple buttons from the centralized dashboard.
 
 == Changelog ==
+
+= 1.2.0 =
+* Added custom display targeting features. Now you can choose exactly on which post types to show your buttons, and manually target specific posts/pages using our autocomplete search field.
 
 = 1.1.0 =
 * Added option to customize button icon size and text font size.

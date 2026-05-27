@@ -95,13 +95,149 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Handlers for conditional toggling of form rows and fields
 	$appContainer.on('change', '#button_type', function () {
 		if ($(this).val() === 'inline') {
 			$('#row_button_position').hide();
+			$('#row_button_targeting').hide();
 		} else {
 			$('#row_button_position').show();
+			$('#row_button_targeting').show();
 		}
 	});
+
+	// Toggle custom targeting settings wrapper
+	$appContainer.on('change', '#display_target', function () {
+		if ($(this).val() === 'custom') {
+			$('.ecb-targeting-custom-settings').slideDown(200);
+		} else {
+			$('.ecb-targeting-custom-settings').slideUp(200);
+		}
+	});
+
+	// Toggle post type sub-settings (radio groups, etc)
+	$appContainer.on('change', '.ecb-pt-enable-checkbox', function () {
+		var $settings = $(this).closest('.ecb-post-type-row').find('.ecb-pt-settings');
+		if ($(this).is(':checked')) {
+			$settings.slideDown(200);
+		} else {
+			$settings.slideUp(200);
+		}
+	});
+
+	// Toggle manual selection search bar
+	$appContainer.on('change', '.ecb-radio-group input[type="radio"]', function () {
+		var $specificSelection = $(this).closest('.ecb-pt-settings').find('.ecb-pt-specific-selection');
+		if ($(this).val() === 'specific') {
+			$specificSelection.slideDown(200);
+		} else {
+			$specificSelection.slideUp(200);
+		}
+	});
+
+	// Remove selected post tag/badge
+	$appContainer.on('click', '.ecb-remove-tag', function () {
+		$(this).closest('.ecb-post-tag').remove();
+	});
+
+	// Autocomplete logic for post search
+	var searchTimeout;
+	$appContainer.on('input', '.ecb-post-search-input', function () {
+		var $input = $(this);
+		var query = $input.val().trim();
+		var $wrapper = $input.closest('.ecb-autocomplete-wrapper');
+		var $spinner = $wrapper.find('.ecb-search-spinner');
+		var $results = $wrapper.find('.ecb-search-results');
+		var postType = $input.closest('.ecb-post-type-row').data('post-type');
+
+		clearTimeout(searchTimeout);
+
+		if (query.length < 2) {
+			$results.hide().html('');
+			return;
+		}
+
+		$spinner.addClass('is-active');
+
+		searchTimeout = setTimeout(function () {
+			$.post(elyncoct_admin.ajax_url, {
+				action: 'elyncoct_search_posts',
+				nonce: elyncoct_admin.nonce,
+				post_type: postType,
+				q: query
+			}, function (response) {
+				$spinner.removeClass('is-active');
+				if (response.success) {
+					var resultsHtml = '';
+					var results = response.data.results;
+					if (results && results.length > 0) {
+						results.forEach(function (item) {
+							resultsHtml += '<div class="ecb-search-result-item" data-id="' + item.id + '" data-title="' + esc_html_attr(item.title) + '">' + esc_html(item.title) + '</div>';
+						});
+					} else {
+						resultsHtml = '<div class="ecb-search-result-no-match">Nenhum resultado encontrado</div>';
+					}
+					$results.html(resultsHtml).show();
+				} else {
+					$results.html('<div class="ecb-search-result-no-match">Erro ao buscar</div>').show();
+				}
+			}).fail(function () {
+				$spinner.removeClass('is-active');
+				$results.html('<div class="ecb-search-result-no-match">Erro de rede</div>').show();
+			});
+		}, 350);
+	});
+
+	// Handle selection of search result
+	$appContainer.on('click', '.ecb-search-result-item', function () {
+		var $item = $(this);
+		var id = $item.data('id');
+		var title = $item.data('title');
+		var $row = $item.closest('.ecb-post-type-row');
+		var postType = $row.data('post-type');
+		var $tagsContainer = $row.find('.ecb-selected-posts-tags');
+		var $wrapper = $item.closest('.ecb-autocomplete-wrapper');
+
+		// Check if already added
+		if ($tagsContainer.find('.ecb-post-tag[data-id="' + id + '"]').length === 0) {
+			var tagHtml = '<span class="ecb-post-tag" data-id="' + id + '">' +
+				esc_html(title) +
+				'<input type="hidden" name="display_conditions[post_types][' + postType + '][ids][]" value="' + id + '">' +
+				'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
+				'</span>';
+			$tagsContainer.append(tagHtml);
+		}
+
+		// Clear search
+		$wrapper.find('.ecb-post-search-input').val('');
+		$wrapper.find('.ecb-search-results').hide().html('');
+	});
+
+	// Close autocomplete results when clicking outside
+	$(document).on('click', function (e) {
+		if (!$(e.target).closest('.ecb-autocomplete-wrapper').length) {
+			$('.ecb-search-results').hide();
+		}
+	});
+
+	// Helper functions for escaping html in client-side results
+	function esc_html(str) {
+		return String(str)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+	}
+
+	function esc_html_attr(str) {
+		return String(str)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+	}
 
 	$appContainer.on('submit', '#ecb-button-form', function (e) {
 		e.preventDefault();

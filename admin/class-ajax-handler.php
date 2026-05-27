@@ -68,6 +68,35 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
 
+		$display_conditions = array(
+			'target' => 'everywhere',
+			'post_types' => array()
+		);
+
+		if (isset($_POST['display_conditions']) && is_array($_POST['display_conditions'])) {
+			$raw_conditions = wp_unslash($_POST['display_conditions']);
+			$display_conditions['target'] = isset($raw_conditions['target']) ? sanitize_text_field($raw_conditions['target']) : 'everywhere';
+			
+			if ($display_conditions['target'] === 'custom' && isset($raw_conditions['post_types']) && is_array($raw_conditions['post_types'])) {
+				foreach ($raw_conditions['post_types'] as $post_type => $pt_data) {
+					if (post_type_exists($post_type)) {
+						$enabled = isset($pt_data['enabled']) && $pt_data['enabled'] === '1';
+						if ($enabled) {
+							$condition = isset($pt_data['condition']) ? sanitize_text_field($pt_data['condition']) : 'all';
+							$ids = array();
+							if ($condition === 'specific' && isset($pt_data['ids']) && is_array($pt_data['ids'])) {
+								$ids = array_map('absint', $pt_data['ids']);
+							}
+							$display_conditions['post_types'][$post_type] = array(
+								'condition' => $condition,
+								'ids' => $ids
+							);
+						}
+					}
+				}
+			}
+		}
+
 		$data = array(
 			'name' => isset($_POST['button_name']) ? sanitize_text_field(wp_unslash($_POST['button_name'])) : 'Unnamed',
 			'type' => isset($_POST['button_type']) ? sanitize_text_field(wp_unslash($_POST['button_type'])) : 'fixed',
@@ -82,6 +111,7 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 				'text_color' => isset($_POST['text_color']) ? sanitize_hex_color(wp_unslash($_POST['text_color'])) : '#ffffff',
 				'icon_size' => isset($_POST['icon_size']) ? intval(wp_unslash($_POST['icon_size'])) : 24,
 				'font_size' => isset($_POST['font_size']) ? intval(wp_unslash($_POST['font_size'])) : 16,
+				'display_conditions' => $display_conditions,
 			)
 		);
 
@@ -117,5 +147,49 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 		}
 
 		wp_send_json_error(array('message' => 'Invalid ID.'));
+	}
+
+	public function ajax_search_posts()
+	{
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
+			wp_send_json_error(array('message' => 'Invalid security token.'));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'Unauthorized access.'));
+		}
+
+		$post_type = isset($_POST['post_type']) ? sanitize_key(wp_unslash($_POST['post_type'])) : 'post';
+		$search = isset($_POST['q']) ? sanitize_text_field(wp_unslash($_POST['q'])) : '';
+
+		if (!post_type_exists($post_type)) {
+			wp_send_json_error(array('message' => 'Invalid post type.'));
+		}
+
+		$args = array(
+			'post_type' => $post_type,
+			'posts_per_page' => 10,
+			'post_status' => 'publish',
+		);
+
+		if (!empty($search)) {
+			$args['s'] = $search;
+		}
+
+		$query = new WP_Query($args);
+		$results = array();
+
+		if ($query->have_posts()) {
+			while ($query->have_posts()) {
+				$query->the_post();
+				$results[] = array(
+					'id' => get_the_ID(),
+					'title' => get_the_title()
+				);
+			}
+			wp_reset_postdata();
+		}
+
+		wp_send_json_success(array('results' => $results));
 	}
 }
