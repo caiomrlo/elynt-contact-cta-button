@@ -1,0 +1,5 @@
+- Exibir um Preview durante a criação do botão.
+- Exibir o shortcode para copiar quando o botão for um inline.
+- Otimização: Fazer o carregamento do css público somente quando algum botão estiver sendo exibido na url.
+- Melhorar o readme focando em marketing e adicionar screenshots.
+- Adicionar atribuição de keys para usar na mensagem do botão. Ex. Olá, vim através da [PAGE_TITLE] e gostaria de saber mais!
