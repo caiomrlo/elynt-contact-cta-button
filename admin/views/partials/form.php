@@ -104,12 +104,12 @@ if (isset($elyncoct_public_post_types['attachment'])) {
 				<div id="row_button_targeting" class="ecb-form-group" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
 					<label for="display_target">Display Targeting</label>
 					<select name="display_conditions[target]" id="display_target">
-						<option value="everywhere" <?php selected($elyncoct_target, 'everywhere'); ?>>Todo o site (Everywhere)</option>
-						<option value="custom" <?php selected($elyncoct_target, 'custom'); ?>>Páginas / Posts específicos (Custom)</option>
+						<option value="everywhere" <?php selected($elyncoct_target, 'everywhere'); ?>>Everywhere</option>
+						<option value="custom" <?php selected($elyncoct_target, 'custom'); ?>>Specific Pages / Posts (Custom)</option>
 					</select>
 
 					<div class="ecb-targeting-custom-settings" style="<?php echo esc_attr($elyncoct_target === 'custom' ? '' : 'display: none;'); ?>">
-						<label style="font-weight:600; margin-bottom:10px; display:block;">Exibir nos tipos de posts:</label>
+						<label style="font-weight:600; margin-bottom:10px; display:block;">Display on Post Types:</label>
 						<div class="ecb-post-types-list">
 							<?php foreach ($elyncoct_public_post_types as $pt_name => $pt_obj) : 
 								$pt_data = isset($elyncoct_post_types_config[$pt_name]) ? $elyncoct_post_types_config[$pt_name] : array();
@@ -127,11 +127,11 @@ if (isset($elyncoct_public_post_types['attachment'])) {
 										<div class="ecb-radio-group">
 											<label>
 												<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="all" <?php checked($condition, 'all'); ?>>
-												Todos os <?php echo esc_html($pt_obj->labels->name); ?>
+												All <?php echo esc_html($pt_obj->labels->name); ?>
 											</label>
 											<label>
 												<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="specific" <?php checked($condition, 'specific'); ?>>
-												Selecionar manualmente
+												Select manually
 											</label>
 										</div>
 										
