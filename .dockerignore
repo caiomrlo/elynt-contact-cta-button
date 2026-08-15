@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+compose*.yaml
+compose*.yml
+.dockerignore
+
+# Documentação e Configurações de Agente
+.agent/
+ARCHITECTURE.md
+ROADMAP.md
+*.md
+
+# Sistema Operacional e IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
