@@ -2,8 +2,8 @@
 /**
  * Menu Icon Asset
  * 
+ * phpcs:ignoreFile
  */
-
 if (!defined('WPINC')) {
     exit;
 }

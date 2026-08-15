@@ -5,7 +5,7 @@ This document outlines the architectural structure and technical decisions for t
 This section details the directory and file structure of the plugin, categorized by architectural layers to ensure a clean separation of concerns.
 
 ```text
-elynt-contact-cta-button/
+plugin/
 ├── elynt-contact-cta-button.php     # Main bootstrap file, handles plugin initialization and activation/deactivation hooks
 ├── includes/                 # Core plugin logic and backend operations
 │   ├── class-activator.php   # Handles installation routines (e.g., creating custom DB tables)

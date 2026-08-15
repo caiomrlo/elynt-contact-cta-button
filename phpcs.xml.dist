@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset name="Elynt Contact CTA Button Ruleset">
+    <description>Regras de qualidade de código e padrões WordPress para o plugin Elynt Contact CTA Button</description>
+
+    <!-- Analisar os arquivos do plugin (diretório atual) -->
+    <file>.</file>
+
+    <!-- Argumentos padrão para o PHPCS -->
+    <arg value="ps"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+
+    <!-- Padrões oficiais do WordPress -->
+    <rule ref="WordPress"/>
+
+    <!-- Compatibilidade com versões do PHP (7.4 a 8.3) -->
+    <config name="testVersion" value="7.4-8.3"/>
+    <rule ref="PHPCompatibilityWP"/>
+
+    <!-- Validação do Text Domain do plugin -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="elynt-contact-cta-button"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Ignorar bibliotecas de terceiros (vendors) e assets minificados -->
+    <exclude-pattern>*/vendors/*</exclude-pattern>
+    <exclude-pattern>*.min.css</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+</ruleset>
