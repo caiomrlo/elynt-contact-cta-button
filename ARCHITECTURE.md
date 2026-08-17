@@ -93,3 +93,7 @@ The plugin follows a modular pattern, isolating database operations from the pre
         *   `post_types` (array): List of target post types (e.g., `'post'`, `'page'`) containing:
             *   `condition` (string): `'all'` (display on all singular pages of this post type) or `'specific'` (display only on manually selected posts).
             *   `ids` (array): Array of integer post IDs to target when the condition is set to `'specific'`.
+        *   `taxonomies` (array): List of target taxonomies (e.g., `'category'`, `'post_tag'`) containing:
+            *   `condition` (string): `'all'` (display on all archive pages of this taxonomy) or `'specific'` (display only on manually selected term archives).
+            *   `ids` (array): Array of integer term IDs to target when condition is set to `'specific'`.
+        *   `special_pages` (array): Map of booleans for special archive and error views (`'blog_index'`, `'search'`, `'author'`, `'date'`, `'not_found_404'`).

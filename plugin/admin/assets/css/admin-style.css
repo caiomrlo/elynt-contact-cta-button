@@ -541,6 +541,9 @@ body .ecb-admin-wrap .iti__selected-dial-code {
 
 /* --- Display Targeting CSS --- */
 body .ecb-admin-wrap .ecb-targeting-custom-settings {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 	margin-top: 15px;
 	background-color: #f8fafc;
 	border: 1px solid #e2e8f0;
@@ -548,18 +551,41 @@ body .ecb-admin-wrap .ecb-targeting-custom-settings {
 	padding: 20px;
 }
 
-body .ecb-admin-wrap .ecb-post-types-list {
+body .ecb-admin-wrap .ecb-targeting-section {
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
-	margin-top: 10px;
+	gap: 12px;
 }
 
-body .ecb-admin-wrap .ecb-post-type-row {
+body .ecb-admin-wrap .ecb-targeting-section-title {
+	font-size: 14px;
+	font-weight: 700;
+	color: #334155;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	border-bottom: 1px solid #e2e8f0;
+	padding-bottom: 8px;
+}
+
+body .ecb-admin-wrap .ecb-targeting-section-title .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	color: #6366f1;
+}
+
+body .ecb-admin-wrap .ecb-targeting-items-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+body .ecb-admin-wrap .ecb-targeting-item-row {
 	background: #ffffff;
 	border: 1px solid #e2e8f0;
 	border-radius: 6px;
-	padding: 15px;
+	padding: 14px 16px;
 }
 
 body .ecb-admin-wrap .ecb-checkbox-label {
@@ -568,6 +594,8 @@ body .ecb-admin-wrap .ecb-checkbox-label {
 	gap: 8px;
 	font-weight: 600;
 	cursor: pointer;
+	font-size: 13px;
+	color: #1e293b;
 }
 
 body .ecb-admin-wrap .ecb-checkbox-label input[type="checkbox"] {
@@ -575,7 +603,7 @@ body .ecb-admin-wrap .ecb-checkbox-label input[type="checkbox"] {
 	cursor: pointer;
 }
 
-body .ecb-admin-wrap .ecb-pt-settings {
+body .ecb-admin-wrap .ecb-targeting-sub-settings {
 	margin-top: 12px;
 	padding-top: 12px;
 	border-top: 1px dashed #e2e8f0;
@@ -595,6 +623,7 @@ body .ecb-admin-wrap .ecb-radio-group label {
 	font-size: 13px;
 	cursor: pointer;
 	margin-bottom: 0;
+	color: #475569;
 }
 
 body .ecb-admin-wrap .ecb-radio-group input[type="radio"] {
@@ -602,7 +631,7 @@ body .ecb-admin-wrap .ecb-radio-group input[type="radio"] {
 	cursor: pointer;
 }
 
-body .ecb-admin-wrap .ecb-pt-specific-selection {
+body .ecb-admin-wrap .ecb-specific-selection {
 	margin-top: 10px;
 }
 
@@ -659,14 +688,14 @@ body .ecb-admin-wrap .ecb-search-result-no-match {
 	font-style: italic;
 }
 
-body .ecb-admin-wrap .ecb-selected-posts-tags {
+body .ecb-admin-wrap .ecb-selected-tags-container {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
 	margin-top: 10px;
 }
 
-body .ecb-admin-wrap .ecb-post-tag {
+body .ecb-admin-wrap .ecb-tag-badge {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -680,7 +709,13 @@ body .ecb-admin-wrap .ecb-post-tag {
 	line-height: 1;
 }
 
-body .ecb-admin-wrap .ecb-post-tag .ecb-remove-tag {
+body .ecb-admin-wrap .ecb-term-tag {
+	background: #f0fdf4;
+	color: #166534;
+	border-color: #bbf7d0;
+}
+
+body .ecb-admin-wrap .ecb-tag-badge .ecb-remove-tag {
 	font-size: 14px;
 	width: 14px;
 	height: 14px;
@@ -692,6 +727,24 @@ body .ecb-admin-wrap .ecb-post-tag .ecb-remove-tag {
 	justify-content: center;
 }
 
-body .ecb-admin-wrap .ecb-post-tag .ecb-remove-tag:hover {
-	color: #312e81;
+body .ecb-admin-wrap .ecb-term-tag .ecb-remove-tag {
+	color: #16a34a;
+}
+
+body .ecb-admin-wrap .ecb-tag-badge .ecb-remove-tag:hover {
+	color: #1e1b4b;
+}
+
+body .ecb-admin-wrap .ecb-term-tag .ecb-remove-tag:hover {
+	color: #14532d;
+}
+
+body .ecb-admin-wrap .ecb-special-pages-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 12px;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	padding: 16px;
 }

@@ -69,28 +69,63 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 		$button_id = isset($_POST['id']) ? intval(wp_unslash($_POST['id'])) : 0;
 
 		$display_conditions = array(
-			'target' => 'everywhere',
-			'post_types' => array()
+			'target'        => 'everywhere',
+			'post_types'    => array(),
+			'taxonomies'    => array(),
+			'special_pages' => array(),
 		);
 
 		if (isset($_POST['display_conditions']) && is_array($_POST['display_conditions'])) {
 			$raw_conditions = wp_unslash($_POST['display_conditions']);
 			$display_conditions['target'] = isset($raw_conditions['target']) ? sanitize_text_field($raw_conditions['target']) : 'everywhere';
 			
-			if ($display_conditions['target'] === 'custom' && isset($raw_conditions['post_types']) && is_array($raw_conditions['post_types'])) {
-				foreach ($raw_conditions['post_types'] as $post_type => $pt_data) {
-					if (post_type_exists($post_type)) {
-						$enabled = isset($pt_data['enabled']) && $pt_data['enabled'] === '1';
-						if ($enabled) {
-							$condition = isset($pt_data['condition']) ? sanitize_text_field($pt_data['condition']) : 'all';
-							$ids = array();
-							if ($condition === 'specific' && isset($pt_data['ids']) && is_array($pt_data['ids'])) {
-								$ids = array_map('absint', $pt_data['ids']);
+			if ($display_conditions['target'] === 'custom') {
+				// Post Types
+				if (isset($raw_conditions['post_types']) && is_array($raw_conditions['post_types'])) {
+					foreach ($raw_conditions['post_types'] as $post_type => $pt_data) {
+						if (post_type_exists($post_type)) {
+							$enabled = isset($pt_data['enabled']) && $pt_data['enabled'] === '1';
+							if ($enabled) {
+								$condition = isset($pt_data['condition']) ? sanitize_text_field($pt_data['condition']) : 'all';
+								$ids       = array();
+								if ($condition === 'specific' && isset($pt_data['ids']) && is_array($pt_data['ids'])) {
+									$ids = array_map('absint', $pt_data['ids']);
+								}
+								$display_conditions['post_types'][$post_type] = array(
+									'condition' => $condition,
+									'ids'       => $ids,
+								);
 							}
-							$display_conditions['post_types'][$post_type] = array(
-								'condition' => $condition,
-								'ids' => $ids
-							);
+						}
+					}
+				}
+
+				// Taxonomies (Categories, Tags, Custom Taxonomies)
+				if (isset($raw_conditions['taxonomies']) && is_array($raw_conditions['taxonomies'])) {
+					foreach ($raw_conditions['taxonomies'] as $taxonomy => $tax_data) {
+						if (taxonomy_exists($taxonomy)) {
+							$enabled = isset($tax_data['enabled']) && $tax_data['enabled'] === '1';
+							if ($enabled) {
+								$condition = isset($tax_data['condition']) ? sanitize_text_field($tax_data['condition']) : 'all';
+								$ids       = array();
+								if ($condition === 'specific' && isset($tax_data['ids']) && is_array($tax_data['ids'])) {
+									$ids = array_map('absint', $tax_data['ids']);
+								}
+								$display_conditions['taxonomies'][$taxonomy] = array(
+									'condition' => $condition,
+									'ids'       => $ids,
+								);
+							}
+						}
+					}
+				}
+
+				// Special Archive & Error Pages
+				if (isset($raw_conditions['special_pages']) && is_array($raw_conditions['special_pages'])) {
+					$allowed_special_keys = array('blog_index', 'search', 'author', 'date', 'not_found_404');
+					foreach ($allowed_special_keys as $key) {
+						if (!empty($raw_conditions['special_pages'][$key])) {
+							$display_conditions['special_pages'][$key] = true;
 						}
 					}
 				}
@@ -188,6 +223,48 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 				);
 			}
 			wp_reset_postdata();
+		}
+
+		wp_send_json_success(array('results' => $results));
+	}
+
+	public function ajax_search_terms()
+	{
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'elyncoct_admin_nonce')) {
+			wp_send_json_error(array('message' => 'Invalid security token.'));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'Unauthorized access.'));
+		}
+
+		$taxonomy = isset($_POST['taxonomy']) ? sanitize_key(wp_unslash($_POST['taxonomy'])) : 'category';
+		$search   = isset($_POST['q']) ? sanitize_text_field(wp_unslash($_POST['q'])) : '';
+
+		if (!taxonomy_exists($taxonomy)) {
+			wp_send_json_error(array('message' => 'Invalid taxonomy.'));
+		}
+
+		$args = array(
+			'taxonomy'   => $taxonomy,
+			'number'     => 10,
+			'hide_empty' => false,
+		);
+
+		if (!empty($search)) {
+			$args['search'] = $search;
+		}
+
+		$terms   = get_terms($args);
+		$results = array();
+
+		if (!empty($terms) && !is_wp_error($terms)) {
+			foreach ($terms as $term) {
+				$results[] = array(
+					'id'    => $term->term_id,
+					'title' => $term->name,
+				);
+			}
 		}
 
 		wp_send_json_success(array('results' => $results));

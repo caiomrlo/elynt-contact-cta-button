@@ -77,31 +77,77 @@ class ELYNCOCT_Chat_Button_Public
 		}
 		
 		if ($target === 'custom') {
-			if (!is_singular()) {
+			$post_types    = isset($conditions['post_types']) && is_array($conditions['post_types']) ? $conditions['post_types'] : array();
+			$taxonomies    = isset($conditions['taxonomies']) && is_array($conditions['taxonomies']) ? $conditions['taxonomies'] : array();
+			$special_pages = isset($conditions['special_pages']) && is_array($conditions['special_pages']) ? $conditions['special_pages'] : array();
+
+			// 1. Singular pages (Posts, Pages, Custom Post Types)
+			if (is_singular()) {
+				$current_post_type = get_post_type();
+
+				if (isset($post_types[$current_post_type])) {
+					$pt_condition = $post_types[$current_post_type];
+					$condition    = isset($pt_condition['condition']) ? $pt_condition['condition'] : 'all';
+
+					if ($condition === 'all') {
+						return true;
+					}
+
+					if ($condition === 'specific') {
+						$ids        = isset($pt_condition['ids']) ? (array) $pt_condition['ids'] : array();
+						$current_id = get_the_ID();
+						return in_array($current_id, $ids, true);
+					}
+				}
 				return false;
 			}
-			
-			$current_post_type = get_post_type();
-			$post_types = isset($conditions['post_types']) ? $conditions['post_types'] : array();
-			
-			if (!isset($post_types[$current_post_type])) {
+
+			// 2. Taxonomy Archive pages (Categories, Tags, Custom Taxonomies)
+			if (is_category() || is_tag() || is_tax()) {
+				$queried_obj = get_queried_object();
+				if ($queried_obj && is_a($queried_obj, 'WP_Term')) {
+					$taxonomy = $queried_obj->taxonomy;
+
+					if (isset($taxonomies[$taxonomy])) {
+						$tax_condition = $taxonomies[$taxonomy];
+						$condition     = isset($tax_condition['condition']) ? $tax_condition['condition'] : 'all';
+
+						if ($condition === 'all') {
+							return true;
+						}
+
+						if ($condition === 'specific') {
+							$ids     = isset($tax_condition['ids']) ? (array) $tax_condition['ids'] : array();
+							$term_id = $queried_obj->term_id;
+							return in_array($term_id, $ids, true);
+						}
+					}
+				}
 				return false;
 			}
-			
-			$pt_condition = $post_types[$current_post_type];
-			$condition = isset($pt_condition['condition']) ? $pt_condition['condition'] : 'all';
-			
-			if ($condition === 'all') {
+
+			// 3. Special Archive & Error Pages
+			if (is_home() && !empty($special_pages['blog_index'])) {
 				return true;
 			}
-			
-			if ($condition === 'specific') {
-				$ids = isset($pt_condition['ids']) ? (array) $pt_condition['ids'] : array();
-				$current_id = get_the_ID();
-				return in_array($current_id, $ids, true);
+
+			if (is_search() && !empty($special_pages['search'])) {
+				return true;
+			}
+
+			if (is_author() && !empty($special_pages['author'])) {
+				return true;
+			}
+
+			if (is_date() && !empty($special_pages['date'])) {
+				return true;
+			}
+
+			if (is_404() && !empty($special_pages['not_found_404'])) {
+				return true;
 			}
 		}
-		
+
 		return false;
 	}
 

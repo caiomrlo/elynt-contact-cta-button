@@ -125,9 +125,19 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Toggle taxonomy sub-settings
+	$appContainer.on('change', '.ecb-tax-enable-checkbox', function () {
+		var $settings = $(this).closest('.ecb-taxonomy-row').find('.ecb-tax-settings');
+		if ($(this).is(':checked')) {
+			$settings.slideDown(200);
+		} else {
+			$settings.slideUp(200);
+		}
+	});
+
 	// Toggle manual selection search bar
 	$appContainer.on('change', '.ecb-radio-group input[type="radio"]', function () {
-		var $specificSelection = $(this).closest('.ecb-pt-settings').find('.ecb-pt-specific-selection');
+		var $specificSelection = $(this).closest('.ecb-targeting-sub-settings').find('.ecb-specific-selection');
 		if ($(this).val() === 'specific') {
 			$specificSelection.slideDown(200);
 		} else {
@@ -135,13 +145,13 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	// Remove selected post tag/badge
+	// Remove selected tag/badge
 	$appContainer.on('click', '.ecb-remove-tag', function () {
-		$(this).closest('.ecb-post-tag').remove();
+		$(this).closest('.ecb-tag-badge, .ecb-post-tag, .ecb-term-tag').remove();
 	});
 
 	// Autocomplete logic for post search
-	var searchTimeout;
+	var postSearchTimeout;
 	$appContainer.on('input', '.ecb-post-search-input', function () {
 		var $input = $(this);
 		var query = $input.val().trim();
@@ -150,7 +160,7 @@ jQuery(document).ready(function ($) {
 		var $results = $wrapper.find('.ecb-search-results');
 		var postType = $input.closest('.ecb-post-type-row').data('post-type');
 
-		clearTimeout(searchTimeout);
+		clearTimeout(postSearchTimeout);
 
 		if (query.length < 2) {
 			$results.hide().html('');
@@ -159,7 +169,7 @@ jQuery(document).ready(function ($) {
 
 		$spinner.addClass('is-active');
 
-		searchTimeout = setTimeout(function () {
+		postSearchTimeout = setTimeout(function () {
 			$.post(elyncoct_admin.ajax_url, {
 				action: 'elyncoct_search_posts',
 				nonce: elyncoct_admin.nonce,
@@ -188,28 +198,95 @@ jQuery(document).ready(function ($) {
 		}, 350);
 	});
 
-	// Handle selection of search result
+	// Autocomplete logic for taxonomy terms search
+	var termSearchTimeout;
+	$appContainer.on('input', '.ecb-term-search-input', function () {
+		var $input = $(this);
+		var query = $input.val().trim();
+		var $wrapper = $input.closest('.ecb-autocomplete-wrapper');
+		var $spinner = $wrapper.find('.ecb-search-spinner');
+		var $results = $wrapper.find('.ecb-search-results');
+		var taxonomy = $input.closest('.ecb-taxonomy-row').data('taxonomy');
+
+		clearTimeout(termSearchTimeout);
+
+		if (query.length < 2) {
+			$results.hide().html('');
+			return;
+		}
+
+		$spinner.addClass('is-active');
+
+		termSearchTimeout = setTimeout(function () {
+			$.post(elyncoct_admin.ajax_url, {
+				action: 'elyncoct_search_terms',
+				nonce: elyncoct_admin.nonce,
+				taxonomy: taxonomy,
+				q: query
+			}, function (response) {
+				$spinner.removeClass('is-active');
+				if (response.success) {
+					var resultsHtml = '';
+					var results = response.data.results;
+					if (results && results.length > 0) {
+						results.forEach(function (item) {
+							resultsHtml += '<div class="ecb-search-result-item" data-id="' + item.id + '" data-title="' + esc_html_attr(item.title) + '">' + esc_html(item.title) + '</div>';
+						});
+					} else {
+						resultsHtml = '<div class="ecb-search-result-no-match">Nenhum resultado encontrado</div>';
+					}
+					$results.html(resultsHtml).show();
+				} else {
+					$results.html('<div class="ecb-search-result-no-match">Erro ao buscar</div>').show();
+				}
+			}).fail(function () {
+				$spinner.removeClass('is-active');
+				$results.html('<div class="ecb-search-result-no-match">Erro de rede</div>').show();
+			});
+		}, 350);
+	});
+
+	// Handle selection of search result (Posts & Terms)
 	$appContainer.on('click', '.ecb-search-result-item', function () {
 		var $item = $(this);
 		var id = $item.data('id');
 		var title = $item.data('title');
-		var $row = $item.closest('.ecb-post-type-row');
-		var postType = $row.data('post-type');
-		var $tagsContainer = $row.find('.ecb-selected-posts-tags');
 		var $wrapper = $item.closest('.ecb-autocomplete-wrapper');
 
-		// Check if already added
-		if ($tagsContainer.find('.ecb-post-tag[data-id="' + id + '"]').length === 0) {
-			var tagHtml = '<span class="ecb-post-tag" data-id="' + id + '">' +
-				esc_html(title) +
-				'<input type="hidden" name="display_conditions[post_types][' + postType + '][ids][]" value="' + id + '">' +
-				'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
-				'</span>';
-			$tagsContainer.append(tagHtml);
+		// If inside a post type row
+		var $postRow = $item.closest('.ecb-post-type-row');
+		if ($postRow.length > 0) {
+			var postType = $postRow.data('post-type');
+			var $tagsContainer = $postRow.find('.ecb-selected-posts-tags');
+
+			if ($tagsContainer.find('.ecb-post-tag[data-id="' + id + '"]').length === 0) {
+				var tagHtml = '<span class="ecb-tag-badge ecb-post-tag" data-id="' + id + '">' +
+					esc_html(title) +
+					'<input type="hidden" name="display_conditions[post_types][' + postType + '][ids][]" value="' + id + '">' +
+					'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
+					'</span>';
+				$tagsContainer.append(tagHtml);
+			}
+		}
+
+		// If inside a taxonomy row
+		var $taxRow = $item.closest('.ecb-taxonomy-row');
+		if ($taxRow.length > 0) {
+			var taxonomy = $taxRow.data('taxonomy');
+			var $taxTagsContainer = $taxRow.find('.ecb-selected-terms-tags');
+
+			if ($taxTagsContainer.find('.ecb-term-tag[data-id="' + id + '"]').length === 0) {
+				var taxTagHtml = '<span class="ecb-tag-badge ecb-term-tag" data-id="' + id + '">' +
+					esc_html(title) +
+					'<input type="hidden" name="display_conditions[taxonomies][' + taxonomy + '][ids][]" value="' + id + '">' +
+					'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
+					'</span>';
+				$taxTagsContainer.append(taxTagHtml);
+			}
 		}
 
 		// Clear search
-		$wrapper.find('.ecb-post-search-input').val('');
+		$wrapper.find('input[type="text"]').val('');
 		$wrapper.find('.ecb-search-results').hide().html('');
 	});
 
