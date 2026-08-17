@@ -19,7 +19,34 @@ class ELYNCOCT_Chat_Button_Public
 
 	public function enqueue_styles()
 	{
-		wp_enqueue_style($this->plugin_name, ELYNCOCT_PLUGIN_URL . 'public/css/public-style.css', array(), $this->version, 'all');
+		wp_register_style($this->plugin_name, ELYNCOCT_PLUGIN_URL . 'public/css/public-style.css', array(), $this->version, 'all');
+
+		if ($this->should_enqueue_styles()) {
+			wp_enqueue_style($this->plugin_name);
+		}
+	}
+
+	private function should_enqueue_styles()
+	{
+		// 1. Check if any active fixed button should be displayed on the current page.
+		$fixed_buttons = $this->db->get_active_fixed_buttons();
+		if (!empty($fixed_buttons)) {
+			foreach ($fixed_buttons as $fixed_button) {
+				if ($this->should_display_button($fixed_button)) {
+					return true;
+				}
+			}
+		}
+
+		// 2. Check if current post content contains the inline shortcode.
+		if (is_singular()) {
+			global $post;
+			if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'elyncoct_chat_button')) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function render_fixed_buttons()
@@ -32,6 +59,7 @@ class ELYNCOCT_Chat_Button_Public
 
 		foreach ($elyncoct_buttons as $elyncoct_button) {
 			if ($this->should_display_button($elyncoct_button)) {
+				wp_enqueue_style($this->plugin_name);
 				$this->load_button_view($elyncoct_button);
 			}
 		}
@@ -94,6 +122,8 @@ class ELYNCOCT_Chat_Button_Public
 		if (!$elyncoct_button || $elyncoct_button['status'] !== 'active') {
 			return '';
 		}
+
+		wp_enqueue_style($this->plugin_name);
 
 		// Ensure we don't apply fixed positioning classes for inline buttons, although the view handles this.
 		ob_start();
