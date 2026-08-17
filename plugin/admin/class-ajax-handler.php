@@ -79,6 +79,7 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 		);
 
 		if (isset($_POST['display_conditions']) && is_array($_POST['display_conditions'])) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized manually below per field and validated against WP schemas.
 			$raw_conditions = wp_unslash($_POST['display_conditions']);
 			$display_conditions['target'] = isset($raw_conditions['target']) ? sanitize_text_field($raw_conditions['target']) : 'everywhere';
 			

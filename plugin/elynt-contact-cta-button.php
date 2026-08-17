@@ -21,7 +21,7 @@ if (!defined('WPINC')) {
 /**
  * Currently plugin version.
  */
-define('ELYNCOCT_VERSION', '1.2.0');
+define('ELYNCOCT_VERSION', '1.3.0');
 define('ELYNCOCT_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ELYNCOCT_PLUGIN_URL', plugin_dir_url(__FILE__));
 

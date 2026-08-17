@@ -30,9 +30,9 @@ $elyncoct_exclusion_pts        = isset($elyncoct_exclusions_config['post_types']
 
 $elyncoct_exclusion_count = 0;
 if (!empty($elyncoct_exclusion_pts)) {
-	foreach ($elyncoct_exclusion_pts as $pt_ex) {
-		if (!empty($pt_ex['ids']) && is_array($pt_ex['ids'])) {
-			$elyncoct_exclusion_count += count($pt_ex['ids']);
+	foreach ($elyncoct_exclusion_pts as $elyncoct_pt_ex) {
+		if (!empty($elyncoct_pt_ex['ids']) && is_array($elyncoct_pt_ex['ids'])) {
+			$elyncoct_exclusion_count += count($elyncoct_pt_ex['ids']);
 		}
 	}
 }
@@ -134,50 +134,50 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 								<span class="dashicons dashicons-admin-post"></span> Post Types (Singular Pages & Posts)
 							</div>
 							<div class="ecb-targeting-items-list">
-								<?php foreach ($elyncoct_public_post_types as $pt_name => $pt_obj) : 
-									$pt_data      = isset($elyncoct_post_types_config[$pt_name]) ? $elyncoct_post_types_config[$pt_name] : array();
-									$enabled      = isset($elyncoct_post_types_config[$pt_name]);
-									$condition    = isset($pt_data['condition']) ? $pt_data['condition'] : 'all';
-									$selected_ids = isset($pt_data['ids']) ? $pt_data['ids'] : array();
+								<?php foreach ($elyncoct_public_post_types as $elyncoct_pt_name => $elyncoct_pt_obj) : 
+									$elyncoct_pt_data      = isset($elyncoct_post_types_config[$elyncoct_pt_name]) ? $elyncoct_post_types_config[$elyncoct_pt_name] : array();
+									$elyncoct_pt_enabled   = isset($elyncoct_post_types_config[$elyncoct_pt_name]);
+									$elyncoct_pt_condition = isset($elyncoct_pt_data['condition']) ? $elyncoct_pt_data['condition'] : 'all';
+									$elyncoct_pt_sel_ids   = isset($elyncoct_pt_data['ids']) ? $elyncoct_pt_data['ids'] : array();
 								?>
-									<div class="ecb-targeting-item-row ecb-post-type-row" data-post-type="<?php echo esc_attr($pt_name); ?>">
+									<div class="ecb-targeting-item-row ecb-post-type-row" data-post-type="<?php echo esc_attr($elyncoct_pt_name); ?>">
 										<label class="ecb-checkbox-label">
-											<input type="checkbox" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][enabled]" class="ecb-pt-enable-checkbox" value="1" <?php checked($enabled, true); ?>>
-											<?php echo esc_html($pt_obj->labels->name); ?>
+											<input type="checkbox" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][enabled]" class="ecb-pt-enable-checkbox" value="1" <?php checked($elyncoct_pt_enabled, true); ?>>
+											<?php echo esc_html($elyncoct_pt_obj->labels->name); ?>
 										</label>
 										
-										<div class="ecb-targeting-sub-settings ecb-pt-settings" style="<?php echo esc_attr($enabled ? '' : 'display: none;'); ?>">
+										<div class="ecb-targeting-sub-settings ecb-pt-settings" style="<?php echo esc_attr($elyncoct_pt_enabled ? '' : 'display: none;'); ?>">
 											<div class="ecb-radio-group">
 												<label>
-													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="all" <?php checked($condition, 'all'); ?>>
-													All <?php echo esc_html($pt_obj->labels->name); ?>
+													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][condition]" value="all" <?php checked($elyncoct_pt_condition, 'all'); ?>>
+													All <?php echo esc_html($elyncoct_pt_obj->labels->name); ?>
 												</label>
 												<label>
-													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][condition]" value="specific" <?php checked($condition, 'specific'); ?>>
+													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][condition]" value="specific" <?php checked($elyncoct_pt_condition, 'specific'); ?>>
 													Select manually
 												</label>
 											</div>
 											
-											<div class="ecb-specific-selection ecb-pt-specific-selection" style="<?php echo esc_attr($condition === 'specific' ? '' : 'display: none;'); ?>">
+											<div class="ecb-specific-selection ecb-pt-specific-selection" style="<?php echo esc_attr($elyncoct_pt_condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-post-search-input" placeholder="Search <?php echo esc_attr($pt_obj->labels->singular_name); ?>...">
+													<input type="text" class="ecb-post-search-input" placeholder="Search <?php echo esc_attr($elyncoct_pt_obj->labels->singular_name); ?>...">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
 												<div class="ecb-selected-tags-container ecb-selected-posts-tags">
 													<?php 
-													if (!empty($selected_ids)) {
-														$posts = get_posts(array(
-															'post_type'      => $pt_name,
-															'post__in'       => $selected_ids,
+													if (!empty($elyncoct_pt_sel_ids)) {
+														$elyncoct_posts = get_posts(array(
+															'post_type'      => $elyncoct_pt_name,
+															'post__in'       => $elyncoct_pt_sel_ids,
 															'posts_per_page' => -1,
 															'post_status'    => 'any'
 														));
-														foreach ($posts as $p) {
+														foreach ($elyncoct_posts as $elyncoct_post_item) {
 															?>
-															<span class="ecb-tag-badge ecb-post-tag" data-id="<?php echo esc_attr($p->ID); ?>">
-																<?php echo esc_html($p->post_title); ?>
-																<input type="hidden" name="display_conditions[post_types][<?php echo esc_attr($pt_name); ?>][ids][]" value="<?php echo esc_attr($p->ID); ?>">
+															<span class="ecb-tag-badge ecb-post-tag" data-id="<?php echo esc_attr($elyncoct_post_item->ID); ?>">
+																<?php echo esc_html($elyncoct_post_item->post_title); ?>
+																<input type="hidden" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][ids][]" value="<?php echo esc_attr($elyncoct_post_item->ID); ?>">
 																<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>
 															</span>
 															<?php
@@ -198,46 +198,46 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 								<span class="dashicons dashicons-category"></span> Taxonomy Archives (Categories, Tags & Taxonomies)
 							</div>
 							<div class="ecb-targeting-items-list">
-								<?php foreach ($elyncoct_public_taxonomies as $tax_name => $tax_obj) : 
-									$tax_data     = isset($elyncoct_taxonomies_config[$tax_name]) ? $elyncoct_taxonomies_config[$tax_name] : array();
-									$enabled      = isset($elyncoct_taxonomies_config[$tax_name]);
-									$condition    = isset($tax_data['condition']) ? $tax_data['condition'] : 'all';
-									$selected_ids = isset($tax_data['ids']) ? $tax_data['ids'] : array();
+								<?php foreach ($elyncoct_public_taxonomies as $elyncoct_tax_name => $elyncoct_tax_obj) : 
+									$elyncoct_tax_data      = isset($elyncoct_taxonomies_config[$elyncoct_tax_name]) ? $elyncoct_taxonomies_config[$elyncoct_tax_name] : array();
+									$elyncoct_tax_enabled   = isset($elyncoct_taxonomies_config[$elyncoct_tax_name]);
+									$elyncoct_tax_condition = isset($elyncoct_tax_data['condition']) ? $elyncoct_tax_data['condition'] : 'all';
+									$elyncoct_tax_sel_ids   = isset($elyncoct_tax_data['ids']) ? $elyncoct_tax_data['ids'] : array();
 								?>
-									<div class="ecb-targeting-item-row ecb-taxonomy-row" data-taxonomy="<?php echo esc_attr($tax_name); ?>">
+									<div class="ecb-targeting-item-row ecb-taxonomy-row" data-taxonomy="<?php echo esc_attr($elyncoct_tax_name); ?>">
 										<label class="ecb-checkbox-label">
-											<input type="checkbox" name="display_conditions[taxonomies][<?php echo esc_attr($tax_name); ?>][enabled]" class="ecb-tax-enable-checkbox" value="1" <?php checked($enabled, true); ?>>
-											<?php echo esc_html($tax_obj->labels->name); ?>
+											<input type="checkbox" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][enabled]" class="ecb-tax-enable-checkbox" value="1" <?php checked($elyncoct_tax_enabled, true); ?>>
+											<?php echo esc_html($elyncoct_tax_obj->labels->name); ?>
 										</label>
 										
-										<div class="ecb-targeting-sub-settings ecb-tax-settings" style="<?php echo esc_attr($enabled ? '' : 'display: none;'); ?>">
+										<div class="ecb-targeting-sub-settings ecb-tax-settings" style="<?php echo esc_attr($elyncoct_tax_enabled ? '' : 'display: none;'); ?>">
 											<div class="ecb-radio-group">
 												<label>
-													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($tax_name); ?>][condition]" value="all" <?php checked($condition, 'all'); ?>>
-													All <?php echo esc_html($tax_obj->labels->name); ?>
+													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][condition]" value="all" <?php checked($elyncoct_tax_condition, 'all'); ?>>
+													All <?php echo esc_html($elyncoct_tax_obj->labels->name); ?>
 												</label>
 												<label>
-													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($tax_name); ?>][condition]" value="specific" <?php checked($condition, 'specific'); ?>>
+													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][condition]" value="specific" <?php checked($elyncoct_tax_condition, 'specific'); ?>>
 													Select manually
 												</label>
 											</div>
 											
-											<div class="ecb-specific-selection ecb-tax-specific-selection" style="<?php echo esc_attr($condition === 'specific' ? '' : 'display: none;'); ?>">
+											<div class="ecb-specific-selection ecb-tax-specific-selection" style="<?php echo esc_attr($elyncoct_tax_condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-term-search-input" placeholder="Search <?php echo esc_attr($tax_obj->labels->singular_name); ?>...">
+													<input type="text" class="ecb-term-search-input" placeholder="Search <?php echo esc_attr($elyncoct_tax_obj->labels->singular_name); ?>...">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
 												<div class="ecb-selected-tags-container ecb-selected-terms-tags">
 													<?php 
-													if (!empty($selected_ids)) {
-														foreach ($selected_ids as $term_id) {
-															$term = get_term(intval($term_id), $tax_name);
-															if ($term && !is_wp_error($term)) {
+													if (!empty($elyncoct_tax_sel_ids)) {
+														foreach ($elyncoct_tax_sel_ids as $elyncoct_term_id) {
+															$elyncoct_term = get_term(intval($elyncoct_term_id), $elyncoct_tax_name);
+															if ($elyncoct_term && !is_wp_error($elyncoct_term)) {
 																?>
-																<span class="ecb-tag-badge ecb-term-tag" data-id="<?php echo esc_attr($term->term_id); ?>">
-																	<?php echo esc_html($term->name); ?>
-																	<input type="hidden" name="display_conditions[taxonomies][<?php echo esc_attr($tax_name); ?>][ids][]" value="<?php echo esc_attr($term->term_id); ?>">
+																<span class="ecb-tag-badge ecb-term-tag" data-id="<?php echo esc_attr($elyncoct_term->term_id); ?>">
+																	<?php echo esc_html($elyncoct_term->name); ?>
+																	<input type="hidden" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][ids][]" value="<?php echo esc_attr($elyncoct_term->term_id); ?>">
 																	<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>
 																</span>
 																<?php
@@ -308,34 +308,34 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 								</p>
 								
 								<div class="ecb-targeting-items-list">
-									<?php foreach ($elyncoct_public_post_types as $pt_name => $pt_obj) : 
-										$excluded_ids = isset($elyncoct_exclusion_pts[$pt_name]['ids']) ? $elyncoct_exclusion_pts[$pt_name]['ids'] : array();
+									<?php foreach ($elyncoct_public_post_types as $elyncoct_ex_pt_name => $elyncoct_ex_pt_obj) : 
+										$elyncoct_excluded_ids = isset($elyncoct_exclusion_pts[$elyncoct_ex_pt_name]['ids']) ? $elyncoct_exclusion_pts[$elyncoct_ex_pt_name]['ids'] : array();
 									?>
-										<div class="ecb-exclusion-item-row" data-post-type="<?php echo esc_attr($pt_name); ?>">
+										<div class="ecb-exclusion-item-row" data-post-type="<?php echo esc_attr($elyncoct_ex_pt_name); ?>">
 											<label class="ecb-exclusion-pt-label">
 												<span class="dashicons dashicons-admin-post"></span>
-												<strong><?php echo esc_html($pt_obj->labels->name); ?></strong>
+												<strong><?php echo esc_html($elyncoct_ex_pt_obj->labels->name); ?></strong>
 											</label>
 											<div class="ecb-autocomplete-wrapper">
-												<input type="text" class="ecb-exclusion-search-input" placeholder="Search <?php echo esc_attr($pt_obj->labels->singular_name); ?> to exclude...">
+												<input type="text" class="ecb-exclusion-search-input" placeholder="Search <?php echo esc_attr($elyncoct_ex_pt_obj->labels->singular_name); ?> to exclude...">
 												<span class="spinner ecb-search-spinner"></span>
 												<div class="ecb-search-results" style="display: none;"></div>
 											</div>
 											<div class="ecb-selected-tags-container ecb-excluded-posts-tags">
 												<?php 
-												if (!empty($excluded_ids)) {
-													$ex_posts = get_posts(array(
-														'post_type'      => $pt_name,
-														'post__in'       => $excluded_ids,
+												if (!empty($elyncoct_excluded_ids)) {
+													$elyncoct_ex_posts = get_posts(array(
+														'post_type'      => $elyncoct_ex_pt_name,
+														'post__in'       => $elyncoct_excluded_ids,
 														'posts_per_page' => -1,
 														'post_status'    => 'any'
 													));
-													foreach ($ex_posts as $p) {
+													foreach ($elyncoct_ex_posts as $elyncoct_ex_p) {
 														?>
-														<span class="ecb-tag-badge ecb-exclusion-tag" data-id="<?php echo esc_attr($p->ID); ?>">
+														<span class="ecb-tag-badge ecb-exclusion-tag" data-id="<?php echo esc_attr($elyncoct_ex_p->ID); ?>">
 															<span class="dashicons dashicons-minus"></span>
-															<?php echo esc_html($p->post_title); ?>
-															<input type="hidden" name="display_conditions[exclusions][post_types][<?php echo esc_attr($pt_name); ?>][ids][]" value="<?php echo esc_attr($p->ID); ?>">
+															<?php echo esc_html($elyncoct_ex_p->post_title); ?>
+															<input type="hidden" name="display_conditions[exclusions][post_types][<?php echo esc_attr($elyncoct_ex_pt_name); ?>][ids][]" value="<?php echo esc_attr($elyncoct_ex_p->ID); ?>">
 															<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>
 														</span>
 														<?php
