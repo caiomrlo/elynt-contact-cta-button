@@ -100,11 +100,41 @@ jQuery(document).ready(function ($) {
 		if ($(this).val() === 'inline') {
 			$('#row_button_position').hide();
 			$('#row_button_targeting').hide();
+			$('#row_button_exclusions').hide();
 		} else {
 			$('#row_button_position').show();
 			$('#row_button_targeting').show();
+			$('#row_button_exclusions').show();
 		}
 	});
+
+	// Toggle collapsible exclusions card
+	$appContainer.on('click', '#ecb_exclusions_toggle', function () {
+		var $header = $(this);
+		var $body = $header.next('.ecb-collapsible-body');
+		var isExpanded = $header.attr('aria-expanded') === 'true';
+
+		$header.attr('aria-expanded', !isExpanded);
+		$header.toggleClass('is-open', !isExpanded);
+		$body.stop(true, true).slideToggle(250);
+	});
+
+	$appContainer.on('keydown', '#ecb_exclusions_toggle', function (e) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			$(this).trigger('click');
+		}
+	});
+
+	function updateExclusionBadge() {
+		var count = $('#row_button_exclusions').find('.ecb-exclusion-tag').length;
+		var $countBadge = $('#row_button_exclusions').find('.ecb-exclusion-count');
+		if (count > 0) {
+			$countBadge.text(count + ' excluded').show();
+		} else {
+			$countBadge.hide();
+		}
+	}
 
 	// Toggle custom targeting settings wrapper
 	$appContainer.on('change', '#display_target', function () {
@@ -147,7 +177,60 @@ jQuery(document).ready(function ($) {
 
 	// Remove selected tag/badge
 	$appContainer.on('click', '.ecb-remove-tag', function () {
-		$(this).closest('.ecb-tag-badge, .ecb-post-tag, .ecb-term-tag').remove();
+		var $tag = $(this).closest('.ecb-tag-badge, .ecb-post-tag, .ecb-term-tag, .ecb-exclusion-tag');
+		var isExclusion = $tag.hasClass('ecb-exclusion-tag');
+		$tag.remove();
+		if (isExclusion) {
+			updateExclusionBadge();
+		}
+	});
+
+	// Autocomplete logic for post/page exclusion search
+	var exclusionSearchTimeout;
+	$appContainer.on('input', '.ecb-exclusion-search-input', function () {
+		var $input = $(this);
+		var query = $input.val().trim();
+		var $wrapper = $input.closest('.ecb-autocomplete-wrapper');
+		var $spinner = $wrapper.find('.ecb-search-spinner');
+		var $results = $wrapper.find('.ecb-search-results');
+		var postType = $input.closest('.ecb-exclusion-item-row').data('post-type');
+
+		clearTimeout(exclusionSearchTimeout);
+
+		if (query.length < 2) {
+			$results.hide().html('');
+			return;
+		}
+
+		$spinner.addClass('is-active');
+
+		exclusionSearchTimeout = setTimeout(function () {
+			$.post(elyncoct_admin.ajax_url, {
+				action: 'elyncoct_search_posts',
+				nonce: elyncoct_admin.nonce,
+				post_type: postType,
+				q: query
+			}, function (response) {
+				$spinner.removeClass('is-active');
+				if (response.success) {
+					var resultsHtml = '';
+					var results = response.data.results;
+					if (results && results.length > 0) {
+						results.forEach(function (item) {
+							resultsHtml += '<div class="ecb-search-result-item" data-id="' + item.id + '" data-title="' + esc_html_attr(item.title) + '">' + esc_html(item.title) + '</div>';
+						});
+					} else {
+						resultsHtml = '<div class="ecb-search-result-no-match">No results found</div>';
+					}
+					$results.html(resultsHtml).show();
+				} else {
+					$results.html('<div class="ecb-search-result-no-match">Error fetching results</div>').show();
+				}
+			}).fail(function () {
+				$spinner.removeClass('is-active');
+				$results.html('<div class="ecb-search-result-no-match">Network error</div>').show();
+			});
+		}, 350);
 	});
 
 	// Autocomplete logic for post search
@@ -185,15 +268,15 @@ jQuery(document).ready(function ($) {
 							resultsHtml += '<div class="ecb-search-result-item" data-id="' + item.id + '" data-title="' + esc_html_attr(item.title) + '">' + esc_html(item.title) + '</div>';
 						});
 					} else {
-						resultsHtml = '<div class="ecb-search-result-no-match">Nenhum resultado encontrado</div>';
+						resultsHtml = '<div class="ecb-search-result-no-match">No results found</div>';
 					}
 					$results.html(resultsHtml).show();
 				} else {
-					$results.html('<div class="ecb-search-result-no-match">Erro ao buscar</div>').show();
+					$results.html('<div class="ecb-search-result-no-match">Error fetching results</div>').show();
 				}
 			}).fail(function () {
 				$spinner.removeClass('is-active');
-				$results.html('<div class="ecb-search-result-no-match">Erro de rede</div>').show();
+				$results.html('<div class="ecb-search-result-no-match">Network error</div>').show();
 			});
 		}, 350);
 	});
@@ -233,15 +316,15 @@ jQuery(document).ready(function ($) {
 							resultsHtml += '<div class="ecb-search-result-item" data-id="' + item.id + '" data-title="' + esc_html_attr(item.title) + '">' + esc_html(item.title) + '</div>';
 						});
 					} else {
-						resultsHtml = '<div class="ecb-search-result-no-match">Nenhum resultado encontrado</div>';
+						resultsHtml = '<div class="ecb-search-result-no-match">No results found</div>';
 					}
 					$results.html(resultsHtml).show();
 				} else {
-					$results.html('<div class="ecb-search-result-no-match">Erro ao buscar</div>').show();
+					$results.html('<div class="ecb-search-result-no-match">Error fetching results</div>').show();
 				}
 			}).fail(function () {
 				$spinner.removeClass('is-active');
-				$results.html('<div class="ecb-search-result-no-match">Erro de rede</div>').show();
+				$results.html('<div class="ecb-search-result-no-match">Network error</div>').show();
 			});
 		}, 350);
 	});
@@ -282,6 +365,24 @@ jQuery(document).ready(function ($) {
 					'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
 					'</span>';
 				$taxTagsContainer.append(taxTagHtml);
+			}
+		}
+
+		// If inside an exclusion row
+		var $exRow = $item.closest('.ecb-exclusion-item-row');
+		if ($exRow.length > 0) {
+			var exPostType = $exRow.data('post-type');
+			var $exTagsContainer = $exRow.find('.ecb-excluded-posts-tags');
+
+			if ($exTagsContainer.find('.ecb-exclusion-tag[data-id="' + id + '"]').length === 0) {
+				var exTagHtml = '<span class="ecb-tag-badge ecb-exclusion-tag" data-id="' + id + '">' +
+					'<span class="dashicons dashicons-minus"></span>' +
+					esc_html(title) +
+					'<input type="hidden" name="display_conditions[exclusions][post_types][' + exPostType + '][ids][]" value="' + id + '">' +
+					'<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>' +
+					'</span>';
+				$exTagsContainer.append(exTagHtml);
+				updateExclusionBadge();
 			}
 		}
 
@@ -334,7 +435,7 @@ jQuery(document).ready(function ($) {
 			if (!iti.isValidNumber()) {
 				$submitBtn.prop('disabled', false);
 				$spinner.removeClass('is-active');
-				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Por favor, insira um número de telefone válido.</div>');
+				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a valid phone number.</div>');
 				return;
 			}
 			fullNumber = iti.getNumber().replace('+', '');

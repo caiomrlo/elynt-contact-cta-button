@@ -67,9 +67,22 @@ class ELYNCOCT_Chat_Button_Public
 
 	private function should_display_button($elyncoct_button)
 	{
-		$options = isset($elyncoct_button['options']) ? $elyncoct_button['options'] : array();
+		$options    = isset($elyncoct_button['options']) ? $elyncoct_button['options'] : array();
 		$conditions = isset($options['display_conditions']) ? $options['display_conditions'] : array();
 		
+		// 1. Exclusion Rules (High Priority - Evaluated before any inclusion rule)
+		$exclusions = isset($conditions['exclusions']) && is_array($conditions['exclusions']) ? $conditions['exclusions'] : array();
+		if (is_singular() && !empty($exclusions['post_types']) && is_array($exclusions['post_types'])) {
+			$current_post_type = get_post_type();
+			if (isset($exclusions['post_types'][$current_post_type]['ids']) && is_array($exclusions['post_types'][$current_post_type]['ids'])) {
+				$excluded_ids = $exclusions['post_types'][$current_post_type]['ids'];
+				$current_id   = get_the_ID();
+				if (in_array($current_id, $excluded_ids, true)) {
+					return false;
+				}
+			}
+		}
+
 		$target = isset($conditions['target']) ? $conditions['target'] : 'everywhere';
 		
 		if ($target === 'everywhere') {

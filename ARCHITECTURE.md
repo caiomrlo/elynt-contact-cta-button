@@ -97,3 +97,5 @@ The plugin follows a modular pattern, isolating database operations from the pre
             *   `condition` (string): `'all'` (display on all archive pages of this taxonomy) or `'specific'` (display only on manually selected term archives).
             *   `ids` (array): Array of integer term IDs to target when condition is set to `'specific'`.
         *   `special_pages` (array): Map of booleans for special archive and error views (`'blog_index'`, `'search'`, `'author'`, `'date'`, `'not_found_404'`).
+        *   `exclusions` (array): Configures pages/posts where the button must never be rendered, evaluated before inclusion rules:
+            *   `post_types` (array): Map of post type slugs to an array containing `ids` (array of integer post/page IDs to exclude).

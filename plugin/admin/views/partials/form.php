@@ -25,6 +25,17 @@ $elyncoct_target               = isset($elyncoct_display_conditions['target']) ?
 $elyncoct_post_types_config    = isset($elyncoct_display_conditions['post_types']) ? $elyncoct_display_conditions['post_types'] : array();
 $elyncoct_taxonomies_config    = isset($elyncoct_display_conditions['taxonomies']) ? $elyncoct_display_conditions['taxonomies'] : array();
 $elyncoct_special_pages_config = isset($elyncoct_display_conditions['special_pages']) ? $elyncoct_display_conditions['special_pages'] : array();
+$elyncoct_exclusions_config    = isset($elyncoct_display_conditions['exclusions']) ? $elyncoct_display_conditions['exclusions'] : array();
+$elyncoct_exclusion_pts        = isset($elyncoct_exclusions_config['post_types']) ? $elyncoct_exclusions_config['post_types'] : array();
+
+$elyncoct_exclusion_count = 0;
+if (!empty($elyncoct_exclusion_pts)) {
+	foreach ($elyncoct_exclusion_pts as $pt_ex) {
+		if (!empty($pt_ex['ids']) && is_array($pt_ex['ids'])) {
+			$elyncoct_exclusion_count += count($pt_ex['ids']);
+		}
+	}
+}
 
 $elyncoct_public_post_types = get_post_types(array('public' => true), 'objects');
 if (isset($elyncoct_public_post_types['attachment'])) {
@@ -149,7 +160,7 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 											
 											<div class="ecb-specific-selection ecb-pt-specific-selection" style="<?php echo esc_attr($condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-post-search-input" placeholder="Buscar <?php echo esc_attr($pt_obj->labels->singular_name); ?>...">
+													<input type="text" class="ecb-post-search-input" placeholder="Search <?php echo esc_attr($pt_obj->labels->singular_name); ?>...">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
@@ -213,7 +224,7 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 											
 											<div class="ecb-specific-selection ecb-tax-specific-selection" style="<?php echo esc_attr($condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-term-search-input" placeholder="Buscar <?php echo esc_attr($tax_obj->labels->singular_name); ?>...">
+													<input type="text" class="ecb-term-search-input" placeholder="Search <?php echo esc_attr($tax_obj->labels->singular_name); ?>...">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
@@ -271,6 +282,72 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 							</div>
 						</div>
 
+					</div>
+				</div>
+
+				<div id="row_button_exclusions" class="ecb-form-group" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+					<div class="ecb-collapsible-card ecb-exclusions-card">
+						<div class="ecb-collapsible-header" id="ecb_exclusions_toggle" tabindex="0" role="button" aria-expanded="false">
+							<div class="ecb-collapsible-title">
+								<span class="dashicons dashicons-hidden"></span>
+								<strong>Exclusion Rules (Optional)</strong>
+								<span class="ecb-collapsible-desc">Hide this button on specific posts, pages, or custom post types</span>
+							</div>
+							<div class="ecb-collapsible-indicator">
+								<span class="ecb-badge ecb-badge-neutral ecb-exclusion-count" style="<?php echo esc_attr(empty($elyncoct_exclusion_count) ? 'display:none;' : ''); ?>">
+									<?php echo esc_html($elyncoct_exclusion_count); ?> excluded
+								</span>
+								<span class="dashicons dashicons-arrow-down-alt2 ecb-chevron"></span>
+							</div>
+						</div>
+
+						<div class="ecb-collapsible-body" style="display: none;">
+							<div class="ecb-exclusions-content">
+								<p class="ecb-help-text" style="margin-top: 0; margin-bottom: 15px;">
+									Select specific posts or pages where the button will be completely excluded from rendering, even if matching Display Targeting rules above.
+								</p>
+								
+								<div class="ecb-targeting-items-list">
+									<?php foreach ($elyncoct_public_post_types as $pt_name => $pt_obj) : 
+										$excluded_ids = isset($elyncoct_exclusion_pts[$pt_name]['ids']) ? $elyncoct_exclusion_pts[$pt_name]['ids'] : array();
+									?>
+										<div class="ecb-exclusion-item-row" data-post-type="<?php echo esc_attr($pt_name); ?>">
+											<label class="ecb-exclusion-pt-label">
+												<span class="dashicons dashicons-admin-post"></span>
+												<strong><?php echo esc_html($pt_obj->labels->name); ?></strong>
+											</label>
+											<div class="ecb-autocomplete-wrapper">
+												<input type="text" class="ecb-exclusion-search-input" placeholder="Search <?php echo esc_attr($pt_obj->labels->singular_name); ?> to exclude...">
+												<span class="spinner ecb-search-spinner"></span>
+												<div class="ecb-search-results" style="display: none;"></div>
+											</div>
+											<div class="ecb-selected-tags-container ecb-excluded-posts-tags">
+												<?php 
+												if (!empty($excluded_ids)) {
+													$ex_posts = get_posts(array(
+														'post_type'      => $pt_name,
+														'post__in'       => $excluded_ids,
+														'posts_per_page' => -1,
+														'post_status'    => 'any'
+													));
+													foreach ($ex_posts as $p) {
+														?>
+														<span class="ecb-tag-badge ecb-exclusion-tag" data-id="<?php echo esc_attr($p->ID); ?>">
+															<span class="dashicons dashicons-minus"></span>
+															<?php echo esc_html($p->post_title); ?>
+															<input type="hidden" name="display_conditions[exclusions][post_types][<?php echo esc_attr($pt_name); ?>][ids][]" value="<?php echo esc_attr($p->ID); ?>">
+															<span class="dashicons dashicons-no-alt ecb-remove-tag"></span>
+														</span>
+														<?php
+													}
+												}
+												?>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 

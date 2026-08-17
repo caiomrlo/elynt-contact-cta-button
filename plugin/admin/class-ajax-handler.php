@@ -73,12 +73,31 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 			'post_types'    => array(),
 			'taxonomies'    => array(),
 			'special_pages' => array(),
+			'exclusions'    => array(
+				'post_types' => array(),
+			),
 		);
 
 		if (isset($_POST['display_conditions']) && is_array($_POST['display_conditions'])) {
 			$raw_conditions = wp_unslash($_POST['display_conditions']);
 			$display_conditions['target'] = isset($raw_conditions['target']) ? sanitize_text_field($raw_conditions['target']) : 'everywhere';
 			
+			// Exclusions (applies to both everywhere and custom target modes)
+			if (isset($raw_conditions['exclusions']['post_types']) && is_array($raw_conditions['exclusions']['post_types'])) {
+				foreach ($raw_conditions['exclusions']['post_types'] as $post_type => $ex_data) {
+					if (post_type_exists($post_type)) {
+						if (isset($ex_data['ids']) && is_array($ex_data['ids'])) {
+							$clean_ids = array_filter(array_map('absint', $ex_data['ids']));
+							if (!empty($clean_ids)) {
+								$display_conditions['exclusions']['post_types'][$post_type] = array(
+									'ids' => array_values(array_unique($clean_ids)),
+								);
+							}
+						}
+					}
+				}
+			}
+
 			if ($display_conditions['target'] === 'custom') {
 				// Post Types
 				if (isset($raw_conditions['post_types']) && is_array($raw_conditions['post_types'])) {
