@@ -101,10 +101,21 @@ jQuery(document).ready(function ($) {
 			$('#row_button_position').hide();
 			$('#row_button_targeting').hide();
 			$('#row_button_exclusions').hide();
+			$('#row_mobile_position').hide();
 		} else {
 			$('#row_button_position').show();
 			$('#row_button_targeting').show();
 			$('#row_button_exclusions').show();
+			$('#row_mobile_position').show();
+		}
+	});
+
+	// Toggle mobile custom settings wrapper
+	$appContainer.on('change', '#enable_mobile_settings', function () {
+		if ($(this).is(':checked')) {
+			$('#ecb_mobile_fields_container').slideDown(250);
+		} else {
+			$('#ecb_mobile_fields_container').slideUp(250);
 		}
 	});
 

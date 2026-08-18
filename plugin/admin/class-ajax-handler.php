@@ -168,6 +168,11 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 				'border_color' => (isset($_POST['border_color']) && sanitize_hex_color(wp_unslash($_POST['border_color']))) ? sanitize_hex_color(wp_unslash($_POST['border_color'])) : '',
 				'icon_size' => isset($_POST['icon_size']) ? intval(wp_unslash($_POST['icon_size'])) : 24,
 				'font_size' => isset($_POST['font_size']) ? intval(wp_unslash($_POST['font_size'])) : 16,
+				'enable_mobile_settings' => isset($_POST['enable_mobile_settings']) && $_POST['enable_mobile_settings'] === '1',
+				'position_mobile' => (isset($_POST['position_mobile']) && in_array($_POST['position_mobile'], array('left', 'right', 'center'), true)) ? sanitize_text_field(wp_unslash($_POST['position_mobile'])) : 'right',
+				'icon_size_mobile' => isset($_POST['icon_size_mobile']) ? absint(wp_unslash($_POST['icon_size_mobile'])) : 0,
+				'font_size_mobile' => isset($_POST['font_size_mobile']) ? absint(wp_unslash($_POST['font_size_mobile'])) : 0,
+				'border_size_mobile' => isset($_POST['border_size_mobile']) ? absint(wp_unslash($_POST['border_size_mobile'])) : 0,
 				'display_conditions' => $display_conditions,
 			)
 		);

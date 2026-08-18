@@ -21,6 +21,11 @@ $elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_o
 $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
 $elyncoct_border_size = isset($elyncoct_options['border_size']) ? intval($elyncoct_options['border_size']) : 0;
 $elyncoct_border_color = isset($elyncoct_options['border_color']) ? $elyncoct_options['border_color'] : '';
+$elyncoct_enable_mobile_settings = !empty($elyncoct_options['enable_mobile_settings']);
+$elyncoct_position_mobile = isset($elyncoct_options['position_mobile']) ? $elyncoct_options['position_mobile'] : 'right';
+$elyncoct_icon_size_mobile = isset($elyncoct_options['icon_size_mobile']) && $elyncoct_options['icon_size_mobile'] > 0 ? intval($elyncoct_options['icon_size_mobile']) : '';
+$elyncoct_font_size_mobile = isset($elyncoct_options['font_size_mobile']) && $elyncoct_options['font_size_mobile'] > 0 ? intval($elyncoct_options['font_size_mobile']) : '';
+$elyncoct_border_size_mobile = isset($elyncoct_options['border_size_mobile']) && $elyncoct_options['border_size_mobile'] !== '' ? intval($elyncoct_options['border_size_mobile']) : '';
 
 $elyncoct_display_conditions   = isset($elyncoct_options['display_conditions']) ? $elyncoct_options['display_conditions'] : array();
 $elyncoct_target               = isset($elyncoct_display_conditions['target']) ? $elyncoct_display_conditions['target'] : 'everywhere';
@@ -403,6 +408,63 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 					<input name="border_color" type="color" id="border_color"
 						value="<?php echo esc_attr(!empty($elyncoct_border_color) ? $elyncoct_border_color : '#000000'); ?>">
 					<p class="ecb-help-text">Applied when border size is greater than 0.</p>
+				</div>
+
+				<div class="ecb-form-group ecb-mobile-settings-wrapper">
+					<div class="ecb-collapsible-card ecb-mobile-card">
+						<div class="ecb-mobile-header">
+							<div class="ecb-mobile-header-info">
+								<span class="dashicons dashicons-smartphone"></span>
+								<div>
+									<strong>Custom Mobile Settings (Optional)</strong>
+									<span class="ecb-help-text" style="display: block; margin-top: 2px;">Customize position and dimensions specifically for mobile devices (&le; 768px).</span>
+								</div>
+							</div>
+							<label class="ecb-switch">
+								<input type="hidden" name="enable_mobile_settings" value="0">
+								<input type="checkbox" class="ecb-switch-input" name="enable_mobile_settings" id="enable_mobile_settings"
+									value="1" <?php checked($elyncoct_enable_mobile_settings, true); ?>>
+								<div class="ecb-switch-track">
+									<div class="ecb-switch-thumb"></div>
+								</div>
+							</label>
+						</div>
+
+						<div id="ecb_mobile_fields_container" class="ecb-mobile-body" style="<?php echo esc_attr($elyncoct_enable_mobile_settings ? '' : 'display: none;'); ?>">
+							<div class="ecb-mobile-grid">
+								<div class="ecb-form-group" id="row_mobile_position" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+									<label for="position_mobile">Fixed Position (Mobile)</label>
+									<select name="position_mobile" id="position_mobile">
+										<option value="right" <?php selected($elyncoct_position_mobile, 'right'); ?>>Bottom Right</option>
+										<option value="left" <?php selected($elyncoct_position_mobile, 'left'); ?>>Bottom Left</option>
+										<option value="center" <?php selected($elyncoct_position_mobile, 'center'); ?>>Bottom Center</option>
+									</select>
+									<p class="ecb-help-text">Position on mobile screens.</p>
+								</div>
+
+								<div class="ecb-form-group">
+									<label for="icon_size_mobile">Icon Size (Mobile) (px)</label>
+									<input name="icon_size_mobile" type="number" id="icon_size_mobile" min="10" max="100"
+										value="<?php echo esc_attr($elyncoct_icon_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_icon_size); ?>">
+									<p class="ecb-help-text">Leave empty to use desktop size.</p>
+								</div>
+
+								<div class="ecb-form-group">
+									<label for="font_size_mobile">Font Size (Mobile) (px)</label>
+									<input name="font_size_mobile" type="number" id="font_size_mobile" min="10" max="100"
+										value="<?php echo esc_attr($elyncoct_font_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_font_size); ?>">
+									<p class="ecb-help-text">Leave empty to use desktop size.</p>
+								</div>
+
+								<div class="ecb-form-group">
+									<label for="border_size_mobile">Border Size (Mobile) (px)</label>
+									<input name="border_size_mobile" type="number" id="border_size_mobile" min="0" max="50"
+										value="<?php echo esc_attr($elyncoct_border_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_border_size); ?>">
+									<p class="ecb-help-text">Leave empty to use desktop border size.</p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="ecb-form-group">

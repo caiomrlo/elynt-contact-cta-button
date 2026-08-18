@@ -1,14 +1,15 @@
 .ecb-whatsapp-button {
 	display: inline-flex;
 	align-items: center;
-	background-color: #25D366;
-	color: #fff;
+	background-color: var(--ecb-bg-color, #25D366);
+	color: var(--ecb-text-color, #fff);
 	text-decoration: none;
 	padding: 12px 20px;
 	border-radius: 50px;
 	font-family: sans-serif;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: var(--ecb-font-size, 16px);
+	border: var(--ecb-border-size, 0px) solid var(--ecb-border-color, transparent);
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 	transition: background-color 0.3s ease, transform 0.3s ease;
 	z-index: 99999;
@@ -18,13 +19,13 @@
 .ecb-whatsapp-button:focus {
 	background-color: #1ebe57;
 	transform: translateY(-2px);
-	color: #fff;
+	color: var(--ecb-text-color, #fff);
 }
 
 .ecb-whatsapp-button svg {
-	width: 24px;
-	height: 24px;
-	fill: currentColor;
+	width: var(--ecb-icon-size, 24px);
+	height: var(--ecb-icon-size, 24px);
+	fill: var(--ecb-text-color, currentColor);
 }
 
 .ecb-whatsapp-text {
@@ -58,8 +59,8 @@
 /* Icon Only Layout */
 .ecb-whatsapp-button.ecb-icon-only {
 	padding: 0;
-	width: 56px;
-	height: 56px;
+	width: calc(var(--ecb-icon-size, 28px) * 2);
+	height: calc(var(--ecb-icon-size, 28px) * 2);
 	border-radius: 50%;
 	justify-content: center;
 }
@@ -69,7 +70,46 @@
 }
 
 .ecb-whatsapp-button.ecb-icon-only svg {
-	width: 28px;
-	height: 28px;
 	margin: 0;
+}
+
+/* Responsive Mobile Customization (<= 768px) */
+@media (max-width: 768px) {
+	.ecb-whatsapp-button {
+		font-size: var(--ecb-font-size-mobile, var(--ecb-font-size, 16px));
+		border-width: var(--ecb-border-size-mobile, var(--ecb-border-size, 0px));
+	}
+
+	.ecb-whatsapp-button svg {
+		width: var(--ecb-icon-size-mobile, var(--ecb-icon-size, 24px));
+		height: var(--ecb-icon-size-mobile, var(--ecb-icon-size, 24px));
+	}
+
+	.ecb-whatsapp-button.ecb-icon-only {
+		width: calc(var(--ecb-icon-size-mobile, var(--ecb-icon-size, 28px)) * 2);
+		height: calc(var(--ecb-icon-size-mobile, var(--ecb-icon-size, 28px)) * 2);
+	}
+
+	.ecb-whatsapp-button.ecb-fixed.ecb-pos-mobile-left {
+		left: 20px;
+		right: auto;
+		transform: none;
+	}
+
+	.ecb-whatsapp-button.ecb-fixed.ecb-pos-mobile-right {
+		right: 20px;
+		left: auto;
+		transform: none;
+	}
+
+	.ecb-whatsapp-button.ecb-fixed.ecb-pos-mobile-center {
+		left: 50%;
+		right: auto;
+		transform: translateX(-50%);
+	}
+
+	.ecb-whatsapp-button.ecb-fixed.ecb-pos-mobile-center:hover,
+	.ecb-whatsapp-button.ecb-fixed.ecb-pos-mobile-center:focus {
+		transform: translateX(-50%) translateY(-2px);
+	}
 }
