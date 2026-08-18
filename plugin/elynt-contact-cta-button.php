@@ -3,7 +3,7 @@
  * Plugin Name:       Elynt Contact CTA Button
  * Plugin URI:        https://github.com/caiomrlo/
  * Description:       A clean and powerful plugin to create WhatsApp Call-to-Action buttons.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            github.com/caiomrlo
