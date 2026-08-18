@@ -20,7 +20,6 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./plugin:/var/www/html/wp-content/plugins/elynt-contact-cta-button
-      - ./phpcs.xml.dist:/var/www/html/wp-content/plugins/elynt-contact-cta-button/phpcs.xml.dist
     depends_on:
       db:
         condition: service_healthy
@@ -63,18 +62,20 @@ services:
     restart: "no"
     entrypoint: |
       /bin/sh -c "
-      echo 'Aguardando inicializacao dos arquivos do WordPress...'
+      echo 'Waiting for WordPress core files initialization...'
       while [ ! -f /var/www/html/wp-config.php ]; do
         sleep 2
       done
-      echo 'Verificando instalacao do WordPress...'
+      echo 'Checking WordPress installation...'
       if ! wp core is-installed --path=/var/www/html; then
-        echo 'Instalando WordPress automaticamente...'
+        echo 'Installing WordPress automatically...'
         wp core install --path=/var/www/html --url=http://localhost:8080 --title='Elynt Plugin Dev' --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email
       fi
-      echo 'Ativando plugin elynt-contact-cta-button...'
+      echo 'Installing and activating Plugin Check (PCP)...'
+      wp plugin install plugin-check --activate --path=/var/www/html || true
+      echo 'Activating elynt-contact-cta-button plugin...'
       wp plugin activate elynt-contact-cta-button --path=/var/www/html || true
-      echo 'Ambiente pronto! Acesse http://localhost:8080/wp-admin/'
+      echo 'Environment ready! Access http://localhost:8080/wp-admin/'
       "
 
 volumes:
