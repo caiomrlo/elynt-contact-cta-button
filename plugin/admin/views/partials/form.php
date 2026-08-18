@@ -19,6 +19,8 @@ $elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['b
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
 $elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
 $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
+$elyncoct_border_size = isset($elyncoct_options['border_size']) ? intval($elyncoct_options['border_size']) : 0;
+$elyncoct_border_color = isset($elyncoct_options['border_color']) ? $elyncoct_options['border_color'] : '';
 
 $elyncoct_display_conditions   = isset($elyncoct_options['display_conditions']) ? $elyncoct_options['display_conditions'] : array();
 $elyncoct_target               = isset($elyncoct_display_conditions['target']) ? $elyncoct_display_conditions['target'] : 'everywhere';
@@ -387,6 +389,20 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 					<input name="font_size" type="number" id="font_size" min="10" max="100"
 						value="<?php echo esc_attr($elyncoct_font_size); ?>">
 					<p class="ecb-help-text">Default is 16px.</p>
+				</div>
+
+				<div class="ecb-form-group">
+					<label for="border_size">Border Size (px)</label>
+					<input name="border_size" type="number" id="border_size" min="0" max="50"
+						value="<?php echo esc_attr($elyncoct_border_size); ?>">
+					<p class="ecb-help-text">Default is 0px (no border).</p>
+				</div>
+
+				<div class="ecb-form-group">
+					<label for="border_color">Border Color</label>
+					<input name="border_color" type="color" id="border_color"
+						value="<?php echo esc_attr(!empty($elyncoct_border_color) ? $elyncoct_border_color : '#000000'); ?>">
+					<p class="ecb-help-text">Applied when border size is greater than 0.</p>
 				</div>
 
 				<div class="ecb-form-group">

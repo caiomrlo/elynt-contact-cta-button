@@ -17,6 +17,8 @@ $elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['b
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
 $elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
 $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
+$elyncoct_border_size = isset($elyncoct_options['border_size']) ? intval($elyncoct_options['border_size']) : 0;
+$elyncoct_border_color = isset($elyncoct_options['border_color']) ? $elyncoct_options['border_color'] : '';
 $elyncoct_whatsapp_url = "https://wa.me/{$elyncoct_number}";
 if (!empty($elyncoct_initial_message)) {
 	$elyncoct_whatsapp_url .= "?text=" . rawurlencode($elyncoct_initial_message);
@@ -37,6 +39,9 @@ if ($elyncoct_layout === 'icon_only') {
 
 $elyncoct_class_string = implode(' ', $elyncoct_classes);
 $elyncoct_style = "background-color: " . esc_attr($elyncoct_bg_color) . "; color: " . esc_attr($elyncoct_text_color) . "; font-size: " . intval($elyncoct_font_size) . "px;";
+if ($elyncoct_border_size > 0 && !empty($elyncoct_border_color)) {
+	$elyncoct_style .= " border: " . intval($elyncoct_border_size) . "px solid " . esc_attr($elyncoct_border_color) . ";";
+}
 if ($elyncoct_layout === 'icon_only') {
 	$elyncoct_container_size = intval($elyncoct_icon_size) * 2;
 	$elyncoct_style .= " width: {$elyncoct_container_size}px; height: {$elyncoct_container_size}px;";

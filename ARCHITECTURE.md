@@ -86,8 +86,8 @@ The plugin follows a modular pattern, isolating database operations from the pre
     *   `position` (string): Fixed layout position on screen (`left`, `right`, `center`).
     *   `layout` (string): Visual layout style (`standard` or `icon_only`).
     *   `initial_message` (string): Pre-filled text message for the WhatsApp chat.
-    *   `bg_color` / `text_color` (string): Color hex codes.
-    *   `icon_size` / `font_size` (int): Element dimensions in pixels.
+    *   `bg_color` / `text_color` / `border_color` (string): Color hex codes.
+    *   `icon_size` / `font_size` / `border_size` (int): Element dimensions in pixels.
     *   `display_conditions` (array): Configures conditional visibility for Fixed buttons on the frontend:
         *   `target` (string): `'everywhere'` (default) or `'custom'`.
         *   `post_types` (array): List of target post types (e.g., `'post'`, `'page'`) containing:
