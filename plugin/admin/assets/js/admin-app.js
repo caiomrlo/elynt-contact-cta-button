@@ -98,16 +98,19 @@ jQuery(document).ready(function ($) {
 	// Handlers for conditional toggling of form rows and fields
 	$appContainer.on('change', '#button_type', function () {
 		if ($(this).val() === 'inline') {
-			$('#row_button_position').hide();
-			$('#row_button_targeting').hide();
-			$('#row_button_exclusions').hide();
-			$('#row_mobile_position').hide();
+			$('#row_button_position').slideUp(200);
+			$('#section_display_rules').slideUp(200);
+			$('#row_mobile_position').slideUp(200);
 		} else {
-			$('#row_button_position').show();
-			$('#row_button_targeting').show();
-			$('#row_button_exclusions').show();
-			$('#row_mobile_position').show();
+			$('#row_button_position').slideDown(200);
+			$('#section_display_rules').slideDown(200);
+			$('#row_mobile_position').slideDown(200);
 		}
+	});
+
+	// Live update color hex code text when color input changes
+	$appContainer.on('input change', '.ecb-color-picker-wrap input[type="color"]', function () {
+		$(this).siblings('.ecb-color-hex').text($(this).val().toUpperCase());
 	});
 
 	// Toggle mobile custom settings wrapper

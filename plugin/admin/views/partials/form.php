@@ -57,80 +57,265 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 <div class="ecb-header-actions">
 	<h2>
 		<span class="dashicons dashicons-<?php echo esc_attr($elyncoct_is_edit ? 'edit' : 'plus-alt2'); ?>"></span>
-		<?php echo esc_html($elyncoct_is_edit ? 'Edit Button' : 'Create New Button'); ?>
+		<?php echo esc_html($elyncoct_is_edit ? __('Edit Button', 'elynt-contact-cta-button') : __('Create New Button', 'elynt-contact-cta-button')); ?>
 	</h2>
-	<button class="ecb-btn ecb-btn-secondary ecb-back-btn">
-		<span class="dashicons dashicons-arrow-left-alt2"></span> Back to List
+	<button type="button" class="ecb-btn ecb-btn-secondary ecb-back-btn">
+		<span class="dashicons dashicons-arrow-left-alt2"></span> <?php esc_html_e('Back to List', 'elynt-contact-cta-button'); ?>
 	</button>
-	</div>
+</div>
 
-	<div class="ecb-form-card">
-		<form id="ecb-button-form">
-			<input type="hidden" name="id" value="<?php echo esc_attr($elyncoct_btn_id); ?>">
+<div class="ecb-form-card">
+	<form id="ecb-button-form">
+		<input type="hidden" name="id" value="<?php echo esc_attr($elyncoct_btn_id); ?>">
 
-			<div class="ecb-form-grid">
+		<!-- SEÇÃO 1: Informações Gerais -->
+		<div class="ecb-form-section">
+			<div class="ecb-section-header">
+				<div class="ecb-section-header-text">
+					<h3 class="ecb-section-title"><?php esc_html_e('General Information', 'elynt-contact-cta-button'); ?></h3>
+					<p class="ecb-section-subtitle"><?php esc_html_e('Basic identifier and display type for this button.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+			<div class="ecb-section-body">
 				<div class="ecb-form-group">
-					<label for="button_name">Button Name <span class="ecb-required">*</span></label>
-					<input name="button_name" type="text" id="button_name" value="<?php echo esc_attr($elyncoct_name); ?>"
-						required placeholder="e.g. Sales Team">
-					<p class="ecb-help-text">For internal organization only.</p>
+					<label for="button_name"><?php esc_html_e('Button Name', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
+					<input name="button_name" type="text" id="button_name" value="<?php echo esc_attr($elyncoct_name); ?>" required placeholder="<?php esc_attr_e('e.g. Sales Team', 'elynt-contact-cta-button'); ?>">
+					<p class="ecb-help-text"><?php esc_html_e('Internal identification name.', 'elynt-contact-cta-button'); ?></p>
 				</div>
 
 				<div class="ecb-form-group">
-					<label>Status</label>
+					<label><?php esc_html_e('Status', 'elynt-contact-cta-button'); ?></label>
 					<label class="ecb-switch">
 						<input type="hidden" name="button_status" value="inactive">
-						<input type="checkbox" class="ecb-switch-input" name="button_status" id="button_status"
-							value="active" <?php checked($elyncoct_status, 'active'); ?>>
+						<input type="checkbox" class="ecb-switch-input" name="button_status" id="button_status" value="active" <?php checked($elyncoct_status, 'active'); ?>>
 						<div class="ecb-switch-track">
 							<div class="ecb-switch-thumb"></div>
 						</div>
-						<span class="ecb-switch-text" data-on="Active" data-off="Inactive"></span>
+						<span class="ecb-switch-text" data-on="<?php esc_attr_e('Active', 'elynt-contact-cta-button'); ?>" data-off="<?php esc_attr_e('Inactive', 'elynt-contact-cta-button'); ?>"></span>
 					</label>
 				</div>
 
 				<div class="ecb-form-group">
-					<label for="button_type">Display Type</label>
+					<label for="button_type"><?php esc_html_e('Display Type', 'elynt-contact-cta-button'); ?></label>
 					<select name="button_type" id="button_type">
-					<option value="fixed" <?php selected($elyncoct_type, 'fixed'); ?>>Fixed (Global on bottom)</option>
-					<option value="inline" <?php selected($elyncoct_type, 'inline'); ?>>Inline (Via Shortcode)</option>
+						<option value="fixed" <?php selected($elyncoct_type, 'fixed'); ?>><?php esc_html_e('Fixed (Floating on bottom)', 'elynt-contact-cta-button'); ?></option>
+						<option value="inline" <?php selected($elyncoct_type, 'inline'); ?>><?php esc_html_e('Inline (Via Shortcode)', 'elynt-contact-cta-button'); ?></option>
 					</select>
+					<p class="ecb-help-text"><?php esc_html_e('Fixed buttons float globally on the screen; inline buttons are placed manually via shortcode.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- SEÇÃO 2: Conteúdo & WhatsApp -->
+		<div class="ecb-form-section">
+			<div class="ecb-section-header">
+				<div class="ecb-section-header-text">
+					<h3 class="ecb-section-title"><?php esc_html_e('Button Content & WhatsApp', 'elynt-contact-cta-button'); ?></h3>
+					<p class="ecb-section-subtitle"><?php esc_html_e('Configure the phone number and chat message.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+			<div class="ecb-section-body">
+				<div class="ecb-grid-2">
+					<div class="ecb-form-group">
+						<label for="whatsapp_number"><?php esc_html_e('WhatsApp Number', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
+						<input name="whatsapp_number" type="tel" id="whatsapp_number" value="<?php echo esc_attr($elyncoct_number); ?>" required>
+						<p class="ecb-help-text"><?php esc_html_e('Select country and enter phone number.', 'elynt-contact-cta-button'); ?></p>
+					</div>
+
+					<div class="ecb-form-group">
+						<label for="button_text"><?php esc_html_e('Button Text', 'elynt-contact-cta-button'); ?></label>
+						<input name="button_text" type="text" id="button_text" value="<?php echo esc_attr($elyncoct_text); ?>" placeholder="<?php esc_attr_e('e.g. Need Help? Chat with us!', 'elynt-contact-cta-button'); ?>">
+						<p class="ecb-help-text"><?php esc_html_e('Call to action label (for standard layout).', 'elynt-contact-cta-button'); ?></p>
+					</div>
 				</div>
 
 				<div class="ecb-form-group">
-					<label>Button Layout</label>
+					<label for="initial_message"><?php esc_html_e('Initial Message', 'elynt-contact-cta-button'); ?></label>
+					<textarea name="initial_message" id="initial_message" rows="3" placeholder="<?php esc_attr_e('e.g. Hello! I would like more information.', 'elynt-contact-cta-button'); ?>"><?php echo esc_textarea($elyncoct_initial_message); ?></textarea>
+					<p class="ecb-help-text"><?php esc_html_e('Pre-filled message when the visitor opens WhatsApp.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- SEÇÃO 3: Design & Aparência -->
+		<div class="ecb-form-section">
+			<div class="ecb-section-header">
+				<div class="ecb-section-header-text">
+					<h3 class="ecb-section-title"><?php esc_html_e('Design & Appearance', 'elynt-contact-cta-button'); ?></h3>
+					<p class="ecb-section-subtitle"><?php esc_html_e('Customize the visual style, position, colors, and dimensions.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+			<div class="ecb-section-body">
+				<div class="ecb-form-group">
+					<label><?php esc_html_e('Button Layout', 'elynt-contact-cta-button'); ?></label>
 					<div class="ecb-layout-selector">
 						<label class="ecb-layout-option">
 							<input type="radio" name="button_layout" value="standard" <?php checked($elyncoct_layout, 'standard'); ?>>
 							<div class="ecb-layout-preview">
 								<span class="dashicons dashicons-whatsapp"></span> Text
 							</div>
-							<span>Standard (Icon + Text)</span>
+							<span><?php esc_html_e('Standard (Icon + Text)', 'elynt-contact-cta-button'); ?></span>
 						</label>
 						<label class="ecb-layout-option">
 							<input type="radio" name="button_layout" value="icon_only" <?php checked($elyncoct_layout, 'icon_only'); ?>>
 							<div class="ecb-layout-preview ecb-layout-icon-only">
 								<span class="dashicons dashicons-whatsapp"></span>
 							</div>
-							<span>Round (Icon Only)</span>
+							<span><?php esc_html_e('Round (Icon Only)', 'elynt-contact-cta-button'); ?></span>
 						</label>
 					</div>
 				</div>
 
-				<div
-					class="ecb-form-group" id="row_button_position" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
-					<label for="button_position">Fixed Position</label>
-					<select name="button_position" id="button_position"> <option value="left" <?php selected($elyncoct_position, 'left'); ?>>Bottom Left</option>
-						<option value="right" <?php selected($elyncoct_position, 'right'); ?>>Bottom Right</option>
-						<option value="center" <?php selected($elyncoct_position, 'center'); ?>>Bottom Center</option>
-						</select>
+				<!-- Fixed Position: Posicionado no Design & Aparência -->
+				<div class="ecb-form-group" id="row_button_position" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+					<label for="button_position"><?php esc_html_e('Fixed Position', 'elynt-contact-cta-button'); ?></label>
+					<select name="button_position" id="button_position">
+						<option value="right" <?php selected($elyncoct_position, 'right'); ?>><?php esc_html_e('Bottom Right', 'elynt-contact-cta-button'); ?></option>
+						<option value="left" <?php selected($elyncoct_position, 'left'); ?>><?php esc_html_e('Bottom Left', 'elynt-contact-cta-button'); ?></option>
+						<option value="center" <?php selected($elyncoct_position, 'center'); ?>><?php esc_html_e('Bottom Center', 'elynt-contact-cta-button'); ?></option>
+					</select>
+					<p class="ecb-help-text"><?php esc_html_e('Screen position for floating button.', 'elynt-contact-cta-button'); ?></p>
 				</div>
 
-				<div id="row_button_targeting" class="ecb-form-group" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
-					<label for="display_target">Display Targeting</label>
+				<!-- Cores em 2 colunas -->
+				<div class="ecb-grid-2">
+					<div class="ecb-form-group">
+						<label for="bg_color"><?php esc_html_e('Background Color', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-color-picker-wrap">
+							<input name="bg_color" type="color" id="bg_color" value="<?php echo esc_attr($elyncoct_bg_color); ?>">
+							<span class="ecb-color-hex"><?php echo esc_html($elyncoct_bg_color); ?></span>
+						</div>
+					</div>
+
+					<div class="ecb-form-group">
+						<label for="text_color"><?php esc_html_e('Text / Icon Color', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-color-picker-wrap">
+							<input name="text_color" type="color" id="text_color" value="<?php echo esc_attr($elyncoct_text_color); ?>">
+							<span class="ecb-color-hex"><?php echo esc_html($elyncoct_text_color); ?></span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Dimensões de Ícone e Fonte em 2 colunas -->
+				<div class="ecb-grid-2">
+					<div class="ecb-form-group">
+						<label for="icon_size"><?php esc_html_e('Icon Size (px)', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-input-with-unit">
+							<input name="icon_size" type="number" id="icon_size" min="10" max="100" value="<?php echo esc_attr($elyncoct_icon_size); ?>">
+							<span class="ecb-unit-badge">px</span>
+						</div>
+						<p class="ecb-help-text"><?php esc_html_e('Default: 24px', 'elynt-contact-cta-button'); ?></p>
+					</div>
+
+					<div class="ecb-form-group">
+						<label for="font_size"><?php esc_html_e('Font Size (px)', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-input-with-unit">
+							<input name="font_size" type="number" id="font_size" min="10" max="100" value="<?php echo esc_attr($elyncoct_font_size); ?>">
+							<span class="ecb-unit-badge">px</span>
+						</div>
+						<p class="ecb-help-text"><?php esc_html_e('Default: 16px', 'elynt-contact-cta-button'); ?></p>
+					</div>
+				</div>
+
+				<!-- Borda: Espessura e Cor na mesma linha (2 colunas) -->
+				<div class="ecb-grid-2">
+					<div class="ecb-form-group">
+						<label for="border_size"><?php esc_html_e('Border Size (px)', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-input-with-unit">
+							<input name="border_size" type="number" id="border_size" min="0" max="50" value="<?php echo esc_attr($elyncoct_border_size); ?>">
+							<span class="ecb-unit-badge">px</span>
+						</div>
+						<p class="ecb-help-text"><?php esc_html_e('Default: 0px (none)', 'elynt-contact-cta-button'); ?></p>
+					</div>
+
+					<div class="ecb-form-group">
+						<label for="border_color"><?php esc_html_e('Border Color', 'elynt-contact-cta-button'); ?></label>
+						<div class="ecb-color-picker-wrap">
+							<input name="border_color" type="color" id="border_color" value="<?php echo esc_attr(!empty($elyncoct_border_color) ? $elyncoct_border_color : '#000000'); ?>">
+							<span class="ecb-color-hex"><?php echo esc_html(!empty($elyncoct_border_color) ? $elyncoct_border_color : '#000000'); ?></span>
+						</div>
+						<p class="ecb-help-text"><?php esc_html_e('Applied when border size > 0.', 'elynt-contact-cta-button'); ?></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SEÇÃO 4: Configurações Mobile -->
+		<div class="ecb-form-section ecb-mobile-section">
+			<div class="ecb-collapsible-card ecb-mobile-card">
+				<div class="ecb-mobile-header">
+					<div class="ecb-mobile-header-info">
+						<div>
+							<strong><?php esc_html_e('Custom Mobile Settings (Optional)', 'elynt-contact-cta-button'); ?></strong>
+							<span class="ecb-help-text" style="display: block; margin-top: 2px;"><?php esc_html_e('Customize position and dimensions specifically for mobile devices (≤ 768px).', 'elynt-contact-cta-button'); ?></span>
+						</div>
+					</div>
+					<label class="ecb-switch">
+						<input type="hidden" name="enable_mobile_settings" value="0">
+						<input type="checkbox" class="ecb-switch-input" name="enable_mobile_settings" id="enable_mobile_settings" value="1" <?php checked($elyncoct_enable_mobile_settings, true); ?>>
+						<div class="ecb-switch-track">
+							<div class="ecb-switch-thumb"></div>
+						</div>
+					</label>
+				</div>
+
+				<div id="ecb_mobile_fields_container" class="ecb-mobile-body" style="<?php echo esc_attr($elyncoct_enable_mobile_settings ? '' : 'display: none;'); ?>">
+					<div class="ecb-form-group" id="row_mobile_position" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : 'margin-bottom: 18px;'); ?>">
+						<label for="position_mobile"><?php esc_html_e('Fixed Position (Mobile)', 'elynt-contact-cta-button'); ?></label>
+						<select name="position_mobile" id="position_mobile">
+							<option value="right" <?php selected($elyncoct_position_mobile, 'right'); ?>><?php esc_html_e('Bottom Right', 'elynt-contact-cta-button'); ?></option>
+							<option value="left" <?php selected($elyncoct_position_mobile, 'left'); ?>><?php esc_html_e('Bottom Left', 'elynt-contact-cta-button'); ?></option>
+							<option value="center" <?php selected($elyncoct_position_mobile, 'center'); ?>><?php esc_html_e('Bottom Center', 'elynt-contact-cta-button'); ?></option>
+						</select>
+						<p class="ecb-help-text"><?php esc_html_e('Position on mobile screens.', 'elynt-contact-cta-button'); ?></p>
+					</div>
+
+					<div class="ecb-grid-3">
+						<div class="ecb-form-group">
+							<label for="icon_size_mobile"><?php esc_html_e('Icon Size (px)', 'elynt-contact-cta-button'); ?></label>
+							<div class="ecb-input-with-unit">
+								<input name="icon_size_mobile" type="number" id="icon_size_mobile" min="10" max="100" value="<?php echo esc_attr($elyncoct_icon_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_icon_size); ?>">
+								<span class="ecb-unit-badge">px</span>
+							</div>
+							<p class="ecb-help-text"><?php esc_html_e('Empty = desktop size', 'elynt-contact-cta-button'); ?></p>
+						</div>
+
+						<div class="ecb-form-group">
+							<label for="font_size_mobile"><?php esc_html_e('Font Size (px)', 'elynt-contact-cta-button'); ?></label>
+							<div class="ecb-input-with-unit">
+								<input name="font_size_mobile" type="number" id="font_size_mobile" min="10" max="100" value="<?php echo esc_attr($elyncoct_font_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_font_size); ?>">
+								<span class="ecb-unit-badge">px</span>
+							</div>
+							<p class="ecb-help-text"><?php esc_html_e('Empty = desktop size', 'elynt-contact-cta-button'); ?></p>
+						</div>
+
+						<div class="ecb-form-group">
+							<label for="border_size_mobile"><?php esc_html_e('Border (px)', 'elynt-contact-cta-button'); ?></label>
+							<div class="ecb-input-with-unit">
+								<input name="border_size_mobile" type="number" id="border_size_mobile" min="0" max="50" value="<?php echo esc_attr($elyncoct_border_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_border_size); ?>">
+								<span class="ecb-unit-badge">px</span>
+							</div>
+							<p class="ecb-help-text"><?php esc_html_e('Empty = desktop size', 'elynt-contact-cta-button'); ?></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SEÇÃO 5: Regras de Exibição & Exclusões (Apenas se Fixo) -->
+		<div class="ecb-form-section" id="section_display_rules" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+			<div class="ecb-section-header">
+				<div class="ecb-section-header-text">
+					<h3 class="ecb-section-title"><?php esc_html_e('Display Rules & Targeting', 'elynt-contact-cta-button'); ?></h3>
+					<p class="ecb-section-subtitle"><?php esc_html_e('Control where the floating button is displayed on your website.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+			</div>
+			<div class="ecb-section-body">
+				<div id="row_button_targeting" class="ecb-form-group">
+					<label for="display_target"><?php esc_html_e('Display Target', 'elynt-contact-cta-button'); ?></label>
 					<select name="display_conditions[target]" id="display_target">
-						<option value="everywhere" <?php selected($elyncoct_target, 'everywhere'); ?>>Everywhere</option>
-						<option value="custom" <?php selected($elyncoct_target, 'custom'); ?>>Specific Pages / Posts / Archives (Custom)</option>
+						<option value="everywhere" <?php selected($elyncoct_target, 'everywhere'); ?>><?php esc_html_e('Everywhere on the site', 'elynt-contact-cta-button'); ?></option>
+						<option value="custom" <?php selected($elyncoct_target, 'custom'); ?>><?php esc_html_e('Specific Pages / Posts / Archives (Custom)', 'elynt-contact-cta-button'); ?></option>
 					</select>
 
 					<div class="ecb-targeting-custom-settings" style="<?php echo esc_attr($elyncoct_target === 'custom' ? '' : 'display: none;'); ?>">
@@ -138,7 +323,7 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 						<!-- Section 1: Singular Post Types -->
 						<div class="ecb-targeting-section">
 							<div class="ecb-targeting-section-title">
-								<span class="dashicons dashicons-admin-post"></span> Post Types (Singular Pages & Posts)
+								<span class="dashicons dashicons-admin-post"></span> <?php esc_html_e('Post Types (Singular Pages & Posts)', 'elynt-contact-cta-button'); ?>
 							</div>
 							<div class="ecb-targeting-items-list">
 								<?php foreach ($elyncoct_public_post_types as $elyncoct_pt_name => $elyncoct_pt_obj) : 
@@ -157,17 +342,24 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 											<div class="ecb-radio-group">
 												<label>
 													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][condition]" value="all" <?php checked($elyncoct_pt_condition, 'all'); ?>>
-													All <?php echo esc_html($elyncoct_pt_obj->labels->name); ?>
+													<?php
+													/* translators: %s: Post type name */
+													printf(esc_html__('All %s', 'elynt-contact-cta-button'), esc_html($elyncoct_pt_obj->labels->name));
+													?>
 												</label>
 												<label>
 													<input type="radio" name="display_conditions[post_types][<?php echo esc_attr($elyncoct_pt_name); ?>][condition]" value="specific" <?php checked($elyncoct_pt_condition, 'specific'); ?>>
-													Select manually
+													<?php esc_html_e('Select manually', 'elynt-contact-cta-button'); ?>
 												</label>
 											</div>
 											
 											<div class="ecb-specific-selection ecb-pt-specific-selection" style="<?php echo esc_attr($elyncoct_pt_condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-post-search-input" placeholder="Search <?php echo esc_attr($elyncoct_pt_obj->labels->singular_name); ?>...">
+													<?php
+													/* translators: %s: Post type singular name */
+													$elyncoct_pt_search_placeholder = sprintf(__('Search %s...', 'elynt-contact-cta-button'), $elyncoct_pt_obj->labels->singular_name);
+													?>
+													<input type="text" class="ecb-post-search-input" placeholder="<?php echo esc_attr($elyncoct_pt_search_placeholder); ?>">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
@@ -202,7 +394,7 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 						<!-- Section 2: Taxonomy Archives (Categories & Tags) -->
 						<div class="ecb-targeting-section">
 							<div class="ecb-targeting-section-title">
-								<span class="dashicons dashicons-category"></span> Taxonomy Archives (Categories, Tags & Taxonomies)
+								<span class="dashicons dashicons-category"></span> <?php esc_html_e('Taxonomy Archives (Categories, Tags & Taxonomies)', 'elynt-contact-cta-button'); ?>
 							</div>
 							<div class="ecb-targeting-items-list">
 								<?php foreach ($elyncoct_public_taxonomies as $elyncoct_tax_name => $elyncoct_tax_obj) : 
@@ -221,17 +413,24 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 											<div class="ecb-radio-group">
 												<label>
 													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][condition]" value="all" <?php checked($elyncoct_tax_condition, 'all'); ?>>
-													All <?php echo esc_html($elyncoct_tax_obj->labels->name); ?>
+													<?php
+													/* translators: %s: Taxonomy name */
+													printf(esc_html__('All %s', 'elynt-contact-cta-button'), esc_html($elyncoct_tax_obj->labels->name));
+													?>
 												</label>
 												<label>
 													<input type="radio" name="display_conditions[taxonomies][<?php echo esc_attr($elyncoct_tax_name); ?>][condition]" value="specific" <?php checked($elyncoct_tax_condition, 'specific'); ?>>
-													Select manually
+													<?php esc_html_e('Select manually', 'elynt-contact-cta-button'); ?>
 												</label>
 											</div>
 											
 											<div class="ecb-specific-selection ecb-tax-specific-selection" style="<?php echo esc_attr($elyncoct_tax_condition === 'specific' ? '' : 'display: none;'); ?>">
 												<div class="ecb-autocomplete-wrapper">
-													<input type="text" class="ecb-term-search-input" placeholder="Search <?php echo esc_attr($elyncoct_tax_obj->labels->singular_name); ?>...">
+													<?php
+													/* translators: %s: Taxonomy singular name */
+													$elyncoct_tax_search_placeholder = sprintf(__('Search %s...', 'elynt-contact-cta-button'), $elyncoct_tax_obj->labels->singular_name);
+													?>
+													<input type="text" class="ecb-term-search-input" placeholder="<?php echo esc_attr($elyncoct_tax_search_placeholder); ?>">
 													<span class="spinner ecb-search-spinner"></span>
 													<div class="ecb-search-results" style="display: none;"></div>
 												</div>
@@ -263,28 +462,28 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 						<!-- Section 3: Special Archive & Other Pages -->
 						<div class="ecb-targeting-section">
 							<div class="ecb-targeting-section-title">
-								<span class="dashicons dashicons-admin-generic"></span> Special Archive & Other Pages
+								<span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e('Special Archive & Other Pages', 'elynt-contact-cta-button'); ?>
 							</div>
 							<div class="ecb-special-pages-grid">
 								<label class="ecb-checkbox-label">
 									<input type="checkbox" name="display_conditions[special_pages][blog_index]" value="1" <?php checked(!empty($elyncoct_special_pages_config['blog_index']), true); ?>>
-									Blog / Posts Index Page
+									<?php esc_html_e('Blog / Posts Index Page', 'elynt-contact-cta-button'); ?>
 								</label>
 								<label class="ecb-checkbox-label">
 									<input type="checkbox" name="display_conditions[special_pages][search]" value="1" <?php checked(!empty($elyncoct_special_pages_config['search']), true); ?>>
-									Search Results Page
+									<?php esc_html_e('Search Results Page', 'elynt-contact-cta-button'); ?>
 								</label>
 								<label class="ecb-checkbox-label">
 									<input type="checkbox" name="display_conditions[special_pages][author]" value="1" <?php checked(!empty($elyncoct_special_pages_config['author']), true); ?>>
-									Author Archive Pages
+									<?php esc_html_e('Author Archive Pages', 'elynt-contact-cta-button'); ?>
 								</label>
 								<label class="ecb-checkbox-label">
 									<input type="checkbox" name="display_conditions[special_pages][date]" value="1" <?php checked(!empty($elyncoct_special_pages_config['date']), true); ?>>
-									Date Archive Pages
+									<?php esc_html_e('Date Archive Pages', 'elynt-contact-cta-button'); ?>
 								</label>
 								<label class="ecb-checkbox-label">
 									<input type="checkbox" name="display_conditions[special_pages][not_found_404]" value="1" <?php checked(!empty($elyncoct_special_pages_config['not_found_404']), true); ?>>
-									404 Error Page
+									<?php esc_html_e('404 Error Page', 'elynt-contact-cta-button'); ?>
 								</label>
 							</div>
 						</div>
@@ -292,17 +491,17 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 					</div>
 				</div>
 
-				<div id="row_button_exclusions" class="ecb-form-group" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
+				<div id="row_button_exclusions" class="ecb-form-group">
 					<div class="ecb-collapsible-card ecb-exclusions-card">
 						<div class="ecb-collapsible-header" id="ecb_exclusions_toggle" tabindex="0" role="button" aria-expanded="false">
 							<div class="ecb-collapsible-title">
 								<span class="dashicons dashicons-hidden"></span>
-								<strong>Exclusion Rules (Optional)</strong>
-								<span class="ecb-collapsible-desc">Hide this button on specific posts, pages, or custom post types</span>
+								<strong><?php esc_html_e('Exclusion Rules (Optional)', 'elynt-contact-cta-button'); ?></strong>
+								<span class="ecb-collapsible-desc"><?php esc_html_e('Hide this button on specific posts, pages, or custom post types', 'elynt-contact-cta-button'); ?></span>
 							</div>
 							<div class="ecb-collapsible-indicator">
 								<span class="ecb-badge ecb-badge-neutral ecb-exclusion-count" style="<?php echo esc_attr(empty($elyncoct_exclusion_count) ? 'display:none;' : ''); ?>">
-									<?php echo esc_html($elyncoct_exclusion_count); ?> excluded
+									<?php echo esc_html($elyncoct_exclusion_count); ?> <?php esc_html_e('excluded', 'elynt-contact-cta-button'); ?>
 								</span>
 								<span class="dashicons dashicons-arrow-down-alt2 ecb-chevron"></span>
 							</div>
@@ -311,7 +510,7 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 						<div class="ecb-collapsible-body" style="display: none;">
 							<div class="ecb-exclusions-content">
 								<p class="ecb-help-text" style="margin-top: 0; margin-bottom: 15px;">
-									Select specific posts or pages where the button will be completely excluded from rendering, even if matching Display Targeting rules above.
+									<?php esc_html_e('Select specific posts or pages where the button will be completely excluded from rendering, even if matching Display Targeting rules above.', 'elynt-contact-cta-button'); ?>
 								</p>
 								
 								<div class="ecb-targeting-items-list">
@@ -324,7 +523,11 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 												<strong><?php echo esc_html($elyncoct_ex_pt_obj->labels->name); ?></strong>
 											</label>
 											<div class="ecb-autocomplete-wrapper">
-												<input type="text" class="ecb-exclusion-search-input" placeholder="Search <?php echo esc_attr($elyncoct_ex_pt_obj->labels->singular_name); ?> to exclude...">
+												<?php
+												/* translators: %s: Post type singular name */
+												$elyncoct_ex_search_placeholder = sprintf(__('Search %s to exclude...', 'elynt-contact-cta-button'), $elyncoct_ex_pt_obj->labels->singular_name);
+												?>
+												<input type="text" class="ecb-exclusion-search-input" placeholder="<?php echo esc_attr($elyncoct_ex_search_placeholder); ?>">
 												<span class="spinner ecb-search-spinner"></span>
 												<div class="ecb-search-results" style="display: none;"></div>
 											</div>
@@ -357,132 +560,16 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 						</div>
 					</div>
 				</div>
-
-				<div class="ecb-form-group">
-					<label for="button_text">Button Text</label>
-					<input name="button_text" type="text" id="button_text" value="<?php echo esc_attr($elyncoct_text); ?>"
-						placeholder="e.g. Need Help? Chat with us!">
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="whatsapp_number">WhatsApp Number <span class="ecb-required">*</span></label>
-					<input name="whatsapp_number" type="tel" id="whatsapp_number"
-						value="<?php echo esc_attr($elyncoct_number); ?>" required>
-					<p class="ecb-help-text">Select your country and enter your number.</p>
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="bg_color">Background Color</label>
-					<input name="bg_color" type="color" id="bg_color" value="<?php echo esc_attr($elyncoct_bg_color); ?>">
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="text_color">Text/Icon Color</label>
-					<input name="text_color" type="color" id="text_color"
-						value="<?php echo esc_attr($elyncoct_text_color); ?>">
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="icon_size">Icon Size (px)</label>
-					<input name="icon_size" type="number" id="icon_size" min="10" max="100"
-						value="<?php echo esc_attr($elyncoct_icon_size); ?>">
-					<p class="ecb-help-text">Default is 24px.</p>
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="font_size">Font Size (px)</label>
-					<input name="font_size" type="number" id="font_size" min="10" max="100"
-						value="<?php echo esc_attr($elyncoct_font_size); ?>">
-					<p class="ecb-help-text">Default is 16px.</p>
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="border_size">Border Size (px)</label>
-					<input name="border_size" type="number" id="border_size" min="0" max="50"
-						value="<?php echo esc_attr($elyncoct_border_size); ?>">
-					<p class="ecb-help-text">Default is 0px (no border).</p>
-				</div>
-
-				<div class="ecb-form-group">
-					<label for="border_color">Border Color</label>
-					<input name="border_color" type="color" id="border_color"
-						value="<?php echo esc_attr(!empty($elyncoct_border_color) ? $elyncoct_border_color : '#000000'); ?>">
-					<p class="ecb-help-text">Applied when border size is greater than 0.</p>
-				</div>
-
-				<div class="ecb-form-group ecb-mobile-settings-wrapper">
-					<div class="ecb-collapsible-card ecb-mobile-card">
-						<div class="ecb-mobile-header">
-							<div class="ecb-mobile-header-info">
-								<span class="dashicons dashicons-smartphone"></span>
-								<div>
-									<strong>Custom Mobile Settings (Optional)</strong>
-									<span class="ecb-help-text" style="display: block; margin-top: 2px;">Customize position and dimensions specifically for mobile devices (&le; 768px).</span>
-								</div>
-							</div>
-							<label class="ecb-switch">
-								<input type="hidden" name="enable_mobile_settings" value="0">
-								<input type="checkbox" class="ecb-switch-input" name="enable_mobile_settings" id="enable_mobile_settings"
-									value="1" <?php checked($elyncoct_enable_mobile_settings, true); ?>>
-								<div class="ecb-switch-track">
-									<div class="ecb-switch-thumb"></div>
-								</div>
-							</label>
-						</div>
-
-						<div id="ecb_mobile_fields_container" class="ecb-mobile-body" style="<?php echo esc_attr($elyncoct_enable_mobile_settings ? '' : 'display: none;'); ?>">
-							<div class="ecb-mobile-grid">
-								<div class="ecb-form-group" id="row_mobile_position" style="<?php echo esc_attr($elyncoct_type === 'inline' ? 'display:none;' : ''); ?>">
-									<label for="position_mobile">Fixed Position (Mobile)</label>
-									<select name="position_mobile" id="position_mobile">
-										<option value="right" <?php selected($elyncoct_position_mobile, 'right'); ?>>Bottom Right</option>
-										<option value="left" <?php selected($elyncoct_position_mobile, 'left'); ?>>Bottom Left</option>
-										<option value="center" <?php selected($elyncoct_position_mobile, 'center'); ?>>Bottom Center</option>
-									</select>
-									<p class="ecb-help-text">Position on mobile screens.</p>
-								</div>
-
-								<div class="ecb-form-group">
-									<label for="icon_size_mobile">Icon Size (Mobile) (px)</label>
-									<input name="icon_size_mobile" type="number" id="icon_size_mobile" min="10" max="100"
-										value="<?php echo esc_attr($elyncoct_icon_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_icon_size); ?>">
-									<p class="ecb-help-text">Leave empty to use desktop size.</p>
-								</div>
-
-								<div class="ecb-form-group">
-									<label for="font_size_mobile">Font Size (Mobile) (px)</label>
-									<input name="font_size_mobile" type="number" id="font_size_mobile" min="10" max="100"
-										value="<?php echo esc_attr($elyncoct_font_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_font_size); ?>">
-									<p class="ecb-help-text">Leave empty to use desktop size.</p>
-								</div>
-
-								<div class="ecb-form-group">
-									<label for="border_size_mobile">Border Size (Mobile) (px)</label>
-									<input name="border_size_mobile" type="number" id="border_size_mobile" min="0" max="50"
-										value="<?php echo esc_attr($elyncoct_border_size_mobile); ?>" placeholder="<?php echo esc_attr($elyncoct_border_size); ?>">
-									<p class="ecb-help-text">Leave empty to use desktop border size.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="ecb-form-group">
-
-					<label for="initial_message">Initial Message</label>
-					<textarea name="initial_message" id="initial_message" rows="3"
-						placeholder="e.g. Hello! I would like more information."><?php echo esc_textarea($elyncoct_initial_message); ?></textarea>
-					<p class="ecb-help-text">Pre-filled message when the user opens WhatsApp.</p>
-				</div>
 			</div>
+		</div>
 
-			<div class="ecb-form-actions">
-				<button type="submit" class="ecb-btn ecb-btn-primary">
-					<span class="dashicons dashicons-saved"></span> Save Button
-				</button>
-				<span class="spinner ecb-spinner"></span>
-			</div>
+		<div class="ecb-form-actions">
+			<button type="submit" class="ecb-btn ecb-btn-primary">
+				<span class="dashicons dashicons-saved"></span> <?php esc_html_e('Save Button', 'elynt-contact-cta-button'); ?>
+			</button>
+			<span class="spinner ecb-spinner"></span>
+		</div>
 
-			<div id="ecb-form-messages"></div>
-		</form>
-	</div>
+		<div id="ecb-form-messages"></div>
+	</form>
+</div>
