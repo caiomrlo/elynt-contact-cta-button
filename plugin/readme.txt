@@ -4,7 +4,7 @@ Donate link: https://github.com/caiomrlo/
 Tags: whatsapp, click to chat, whatsapp chat, floating button, contact button
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,11 @@ No. Elynt Contact CTA Button is optimized for speed. It uses custom database tab
 2. screenshot-2.png
 
 == Changelog ==
+
+= 1.4.0 =
+* Feature: Added responsive mobile customization options (custom font size, icon size, padding, and round button size for mobile devices).
+* Feature: Added border customization options for buttons (custom border width and color).
+* UI/UX: Reorganized admin button editor into clean sections with improved field layouts and grouping.
 
 = 1.3.0 =
 * Performance: Optimized asset delivery by conditionally loading frontend CSS only when an active button is rendered on the page.
