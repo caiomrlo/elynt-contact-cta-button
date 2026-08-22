@@ -1,0 +1,47 @@
+# Git, GitHub & AI Agent Configurations
+.git/
+.github/
+.agents/
+.gitignore
+.gitattributes
+.distignore
+
+# Development, Formatting & Linters
+.editorconfig
+phpcs.xml*
+phpstan.neon*
+phpunit.xml*
+
+# Docker & Local Environments
+.dockerignore
+Dockerfile
+compose.yaml
+
+# Composer & Dependencies
+composer.json
+composer.lock
+vendor/
+node_modules/
+
+# Test Suites & Fixtures
+tests/
+coverage/
+
+# Repository Architecture & Internal Documentation
+ARCHITECTURE.md
+ROADMAP.md
+AGENTS.md
+
+# Build Artifacts & Temporary Files
+build/
+build_dist/
+*.zip
+*.tar.gz
+*.log
+
+# IDE & OS Artifacts
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

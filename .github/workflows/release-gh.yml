@@ -1,0 +1,50 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Extract Slug and Version
+        id: vars
+        run: |
+          TAG="${{ github.ref_name }}"
+          VERSION="${TAG#v}"
+          SLUG="elynt-contact-cta-button"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "slug=$SLUG" >> $GITHUB_OUTPUT
+
+      - name: Prepare Clean Distribution Directory
+        run: |
+          mkdir -p build_dist/${{ steps.vars.outputs.slug }}
+          # Copy production runtime files from ./plugin/
+          cp -r ./plugin/* build_dist/${{ steps.vars.outputs.slug }}/
+          # Include license file in distribution
+          if [ -f "LICENSE" ]; then
+            cp LICENSE build_dist/${{ steps.vars.outputs.slug }}/
+          fi
+          cd build_dist
+          zip -r ../${{ steps.vars.outputs.slug }}-v${{ steps.vars.outputs.version }}.zip ${{ steps.vars.outputs.slug }}
+          zip -r ../${{ steps.vars.outputs.slug }}.zip ${{ steps.vars.outputs.slug }}
+          cd ..
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ steps.vars.outputs.slug }}-v${{ steps.vars.outputs.version }}.zip
+            ${{ steps.vars.outputs.slug }}.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
