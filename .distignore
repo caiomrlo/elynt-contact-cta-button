@@ -28,6 +28,7 @@ tests/
 coverage/
 
 # Repository Architecture & Internal Documentation
+README.md
 ARCHITECTURE.md
 ROADMAP.md
 AGENTS.md
