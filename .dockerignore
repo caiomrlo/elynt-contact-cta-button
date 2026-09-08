@@ -9,7 +9,9 @@ compose*.yml
 .dockerignore
 
 # Documentação e Configurações de Agente
-.agent/
+.agents/
+.github/
+.distignore
 ARCHITECTURE.md
 ROADMAP.md
 *.md

@@ -21,7 +21,7 @@ docker compose up -d
   * **Username:** `admin`
   * **Password:** `admin`
 
-> ⚡ **Real-Time Updates:** Files inside `/plugin` are mounted directly into the container. Any edits to PHP, CSS, or JS reflect immediately without restarting Docker.
+> ⚡ **Real-Time Updates:** Plugin files in the repository root are mounted directly into the container. Any edits to PHP, CSS, or JS reflect immediately without restarting Docker.
 
 ---
 

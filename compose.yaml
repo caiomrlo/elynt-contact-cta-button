@@ -19,7 +19,7 @@ services:
         define('SCRIPT_DEBUG', true);
     volumes:
       - wordpress_data:/var/www/html
-      - ./plugin:/var/www/html/wp-content/plugins/elynt-contact-cta-button
+      - .:/var/www/html/wp-content/plugins/elynt-contact-cta-button
     depends_on:
       db:
         condition: service_healthy
@@ -48,7 +48,7 @@ services:
     user: "33:33"
     volumes:
       - wordpress_data:/var/www/html
-      - ./plugin:/var/www/html/wp-content/plugins/elynt-contact-cta-button
+      - .:/var/www/html/wp-content/plugins/elynt-contact-cta-button
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress

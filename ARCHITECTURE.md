@@ -5,8 +5,10 @@ This document outlines the architectural structure and technical decisions for t
 This section details the directory and file structure of the plugin, categorized by architectural layers to ensure a clean separation of concerns.
 
 ```text
-plugin/
+.
 ├── elynt-contact-cta-button.php     # Main bootstrap file, handles plugin initialization and activation/deactivation hooks
+├── uninstall.php             # Cleanup script, deletes database tables when the plugin is uninstalled
+├── readme.txt                # WordPress.org plugin directory readme metadata
 ├── includes/                 # Core plugin logic and backend operations
 │   ├── class-activator.php   # Handles installation routines (e.g., creating custom DB tables)
 │   ├── class-db-manager.php  # Dedicated Database layer for CRUD operations
@@ -17,7 +19,7 @@ plugin/
 │   ├── vendors/              # 3rd party libraries for the admin panel
 │   ├── assets/               # Static assets for the admin panel
 │   │   ├── css/              # CSS styles for the admin panel
-│   │   ├── js/               # JavaScript for the Admin App (AJAX navigation and form handling)
+│   │   └── js/               # JavaScript for the Admin App (AJAX navigation and form handling)
 │   └── views/                # HTML templates for the Admin UI
 │       ├── app-container.php # Main wrapper for the SPA, contains the header and an empty container to load partials
 │       └── partials/         # Component views loaded dynamically via AJAX
@@ -27,7 +29,8 @@ plugin/
 │   ├── class-public.php      # Registers frontend hooks (wp_footer) and shortcodes
 │   ├── css/                  # CSS for the WhatsApp buttons
 │   └── views/                # HTML templates for rendering the buttons
-├── uninstall.php             # Cleanup script, deletes database tables when the plugin is uninstalled
+├── compose.yaml              # Local Docker development environment
+├── Dockerfile                # Custom WordPress container with WPCS, PHPCS & Composer
 └── ARCHITECTURE.md           # This document
 ```
 

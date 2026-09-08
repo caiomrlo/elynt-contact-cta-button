@@ -30,12 +30,8 @@ jobs:
       - name: Prepare Clean Distribution Directory
         run: |
           mkdir -p build_dist/${{ steps.vars.outputs.slug }}
-          # Copy production runtime files from ./plugin/
-          cp -r ./plugin/* build_dist/${{ steps.vars.outputs.slug }}/
-          # Include license file in distribution
-          if [ -f "LICENSE" ]; then
-            cp LICENSE build_dist/${{ steps.vars.outputs.slug }}/
-          fi
+          # Copy production files respecting .distignore
+          rsync -rc --exclude-from='.distignore' ./ build_dist/${{ steps.vars.outputs.slug }}/
           cd build_dist
           zip -r ../${{ steps.vars.outputs.slug }}-v${{ steps.vars.outputs.version }}.zip ${{ steps.vars.outputs.slug }}
           zip -r ../${{ steps.vars.outputs.slug }}.zip ${{ steps.vars.outputs.slug }}
