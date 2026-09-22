@@ -152,13 +152,25 @@ class ELYNCOCT_Chat_Button_Ajax_Handler
 			}
 		}
 
+		$allowed_channels = array('whatsapp', 'telegram', 'custom_link');
+		$raw_channel      = isset($_POST['button_channel']) ? sanitize_key(wp_unslash($_POST['button_channel'])) : 'whatsapp';
+		$channel          = in_array($raw_channel, $allowed_channels, true) ? $raw_channel : 'whatsapp';
+
+		$telegram_raw = isset($_POST['telegram_recipient']) ? sanitize_text_field(wp_unslash($_POST['telegram_recipient'])) : '';
+		$telegram_recipient = ltrim(trim($telegram_raw), '@+');
+
+		$custom_link = isset($_POST['custom_link']) ? esc_url_raw(wp_unslash($_POST['custom_link'])) : '';
+
 		$data = array(
 			'name' => isset($_POST['button_name']) ? sanitize_text_field(wp_unslash($_POST['button_name'])) : 'Unnamed',
 			'type' => isset($_POST['button_type']) ? sanitize_text_field(wp_unslash($_POST['button_type'])) : 'fixed',
 			'status' => isset($_POST['button_status']) ? sanitize_text_field(wp_unslash($_POST['button_status'])) : 'active',
 			'options' => array(
+				'channel' => $channel,
 				'text' => isset($_POST['button_text']) ? sanitize_text_field(wp_unslash($_POST['button_text'])) : '',
 				'number' => isset($_POST['whatsapp_number']) ? sanitize_text_field(wp_unslash($_POST['whatsapp_number'])) : '',
+				'telegram_recipient' => $telegram_recipient,
+				'custom_link' => $custom_link,
 				'position' => isset($_POST['button_position']) ? sanitize_text_field(wp_unslash($_POST['button_position'])) : 'right',
 				'layout' => isset($_POST['button_layout']) ? sanitize_text_field(wp_unslash($_POST['button_layout'])) : 'standard',
 				'initial_message' => isset($_POST['initial_message']) ? sanitize_textarea_field(wp_unslash($_POST['initial_message'])) : '',

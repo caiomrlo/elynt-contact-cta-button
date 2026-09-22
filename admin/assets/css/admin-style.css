@@ -558,6 +558,102 @@ body .ecb-admin-wrap .ecb-switch-input:checked~.ecb-switch-text::before {
 	content: attr(data-on);
 }
 
+/* Channel Selector */
+body .ecb-admin-wrap .ecb-channel-selector {
+	display: flex;
+	gap: 12px;
+	margin-top: 5px;
+}
+
+body .ecb-admin-wrap .ecb-channel-option {
+	flex: 1;
+	cursor: pointer;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	padding: 12px 14px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	transition: all 0.2s ease;
+	background: #fff;
+	position: relative;
+}
+
+body .ecb-admin-wrap .ecb-channel-option:hover {
+	border-color: #94a3b8;
+}
+
+body .ecb-admin-wrap .ecb-channel-option input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+body .ecb-admin-wrap .ecb-channel-option:has(input[type="radio"]:checked),
+body .ecb-admin-wrap .ecb-channel-option.is-selected {
+	border-color: #4f46e5;
+	box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+	background: #f8fafc;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge {
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge .dashicons,
+body .ecb-admin-wrap .ecb-channel-badge svg {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	line-height: 1;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge.ecb-channel-whatsapp {
+	background-color: #dcfce7;
+	color: #166534;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge.ecb-channel-telegram {
+	background-color: #e0f2fe;
+	color: #0284c7;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge.ecb-channel-link {
+	background-color: #e0e7ff;
+	color: #4338ca;
+}
+
+body .ecb-admin-wrap .ecb-channel-label {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1e293b;
+}
+
+body .ecb-admin-wrap .ecb-channel-badge-mini {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+body .ecb-admin-wrap .ecb-preview-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body .ecb-admin-wrap .ecb-preview-icon svg {
+	width: 16px;
+	height: 16px;
+}
+
 /* Layout Selector */
 body .ecb-admin-wrap .ecb-layout-selector {
 	display: flex;

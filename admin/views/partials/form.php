@@ -10,12 +10,15 @@ $elyncoct_type = $elyncoct_is_edit ? $elyncoct_button['type'] : 'fixed';
 $elyncoct_status = $elyncoct_is_edit ? $elyncoct_button['status'] : 'active';
 $elyncoct_options = $elyncoct_is_edit ? $elyncoct_button['options'] : array();
 
+$elyncoct_channel = isset($elyncoct_options['channel']) ? $elyncoct_options['channel'] : 'whatsapp';
 $elyncoct_text = isset($elyncoct_options['text']) ? $elyncoct_options['text'] : 'Chat with us';
 $elyncoct_number = isset($elyncoct_options['number']) ? $elyncoct_options['number'] : '';
+$elyncoct_telegram_recipient = isset($elyncoct_options['telegram_recipient']) ? $elyncoct_options['telegram_recipient'] : '';
+$elyncoct_custom_link = isset($elyncoct_options['custom_link']) ? $elyncoct_options['custom_link'] : '';
 $elyncoct_position = isset($elyncoct_options['position']) ? $elyncoct_options['position'] : 'right';
 $elyncoct_layout = isset($elyncoct_options['layout']) ? $elyncoct_options['layout'] : 'standard';
 $elyncoct_initial_message = isset($elyncoct_options['initial_message']) ? $elyncoct_options['initial_message'] : '';
-$elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['bg_color'] : '#25D366';
+$elyncoct_bg_color = isset($elyncoct_options['bg_color']) ? $elyncoct_options['bg_color'] : ($elyncoct_channel === 'telegram' ? '#229ED9' : ($elyncoct_channel === 'custom_link' ? '#4f46e5' : '#25D366'));
 $elyncoct_text_color = isset($elyncoct_options['text_color']) ? $elyncoct_options['text_color'] : '#ffffff';
 $elyncoct_icon_size = isset($elyncoct_options['icon_size']) ? intval($elyncoct_options['icon_size']) : 24;
 $elyncoct_font_size = isset($elyncoct_options['font_size']) ? intval($elyncoct_options['font_size']) : 16;
@@ -96,6 +99,36 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 				</div>
 
 				<div class="ecb-form-group">
+					<label><?php esc_html_e('Button Type (Action)', 'elynt-contact-cta-button'); ?></label>
+					<div class="ecb-channel-selector">
+						<label class="ecb-channel-option <?php echo esc_attr($elyncoct_channel === 'whatsapp' ? 'is-selected' : ''); ?>">
+							<input type="radio" name="button_channel" value="whatsapp" <?php checked($elyncoct_channel, 'whatsapp'); ?>>
+							<div class="ecb-channel-badge ecb-channel-whatsapp">
+								<span class="dashicons dashicons-whatsapp"></span>
+							</div>
+							<span class="ecb-channel-label"><?php esc_html_e('WhatsApp', 'elynt-contact-cta-button'); ?></span>
+						</label>
+
+						<label class="ecb-channel-option <?php echo esc_attr($elyncoct_channel === 'telegram' ? 'is-selected' : ''); ?>">
+							<input type="radio" name="button_channel" value="telegram" <?php checked($elyncoct_channel, 'telegram'); ?>>
+							<div class="ecb-channel-badge ecb-channel-telegram">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor"><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg>
+							</div>
+							<span class="ecb-channel-label"><?php esc_html_e('Telegram', 'elynt-contact-cta-button'); ?></span>
+						</label>
+
+						<label class="ecb-channel-option <?php echo esc_attr($elyncoct_channel === 'custom_link' ? 'is-selected' : ''); ?>">
+							<input type="radio" name="button_channel" value="custom_link" <?php checked($elyncoct_channel, 'custom_link'); ?>>
+							<div class="ecb-channel-badge ecb-channel-link">
+								<span class="dashicons dashicons-admin-links"></span>
+							</div>
+							<span class="ecb-channel-label"><?php esc_html_e('Custom Link', 'elynt-contact-cta-button'); ?></span>
+						</label>
+					</div>
+					<p class="ecb-help-text"><?php esc_html_e('Choose the action type: WhatsApp chat, Telegram contact, or a custom URL.', 'elynt-contact-cta-button'); ?></p>
+				</div>
+
+				<div class="ecb-form-group">
 					<label for="button_type"><?php esc_html_e('Display Type', 'elynt-contact-cta-button'); ?></label>
 					<select name="button_type" id="button_type">
 						<option value="fixed" <?php selected($elyncoct_type, 'fixed'); ?>><?php esc_html_e('Fixed (Floating on bottom)', 'elynt-contact-cta-button'); ?></option>
@@ -106,20 +139,43 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 			</div>
 		</div>
 
-		<!-- SEÇÃO 2: Conteúdo & WhatsApp -->
+		<!-- SEÇÃO 2: Conteúdo & Destino -->
 		<div class="ecb-form-section">
 			<div class="ecb-section-header">
 				<div class="ecb-section-header-text">
-					<h3 class="ecb-section-title"><?php esc_html_e('Button Content & WhatsApp', 'elynt-contact-cta-button'); ?></h3>
-					<p class="ecb-section-subtitle"><?php esc_html_e('Configure the phone number and chat message.', 'elynt-contact-cta-button'); ?></p>
+					<h3 class="ecb-section-title"><?php esc_html_e('Button Content & Destination', 'elynt-contact-cta-button'); ?></h3>
+					<p class="ecb-section-subtitle"><?php esc_html_e('Configure recipient, call-to-action text, and message.', 'elynt-contact-cta-button'); ?></p>
 				</div>
 			</div>
 			<div class="ecb-section-body">
 				<div class="ecb-grid-2">
-					<div class="ecb-form-group">
-						<label for="whatsapp_number"><?php esc_html_e('WhatsApp Number', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
-						<input name="whatsapp_number" type="tel" id="whatsapp_number" value="<?php echo esc_attr($elyncoct_number); ?>" required>
-						<p class="ecb-help-text"><?php esc_html_e('Select country and enter phone number.', 'elynt-contact-cta-button'); ?></p>
+					<div class="ecb-destination-col">
+						<!-- WhatsApp Number Input -->
+						<div id="row_whatsapp_number" class="ecb-channel-field-group" style="<?php echo esc_attr($elyncoct_channel === 'whatsapp' ? '' : 'display:none;'); ?>">
+							<div class="ecb-form-group">
+								<label for="whatsapp_number"><?php esc_html_e('WhatsApp Number', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
+								<input name="whatsapp_number" type="tel" id="whatsapp_number" value="<?php echo esc_attr($elyncoct_number); ?>">
+								<p class="ecb-help-text"><?php esc_html_e('Select country and enter phone number.', 'elynt-contact-cta-button'); ?></p>
+							</div>
+						</div>
+
+						<!-- Telegram Recipient Input -->
+						<div id="row_telegram_recipient" class="ecb-channel-field-group" style="<?php echo esc_attr($elyncoct_channel === 'telegram' ? '' : 'display:none;'); ?>">
+							<div class="ecb-form-group">
+								<label for="telegram_recipient"><?php esc_html_e('Telegram Phone or Username', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
+								<input name="telegram_recipient" type="text" id="telegram_recipient" value="<?php echo esc_attr($elyncoct_telegram_recipient); ?>" placeholder="<?php esc_attr_e('e.g. 5511999998888 or username', 'elynt-contact-cta-button'); ?>">
+								<p class="ecb-help-text"><?php esc_html_e('Enter phone without + (e.g. 5511...) or username without @ (e.g. sales_team).', 'elynt-contact-cta-button'); ?></p>
+							</div>
+						</div>
+
+						<!-- Custom Link Input -->
+						<div id="row_custom_link" class="ecb-channel-field-group" style="<?php echo esc_attr($elyncoct_channel === 'custom_link' ? '' : 'display:none;'); ?>">
+							<div class="ecb-form-group">
+								<label for="custom_link"><?php esc_html_e('Custom Link URL', 'elynt-contact-cta-button'); ?> <span class="ecb-required">*</span></label>
+								<input name="custom_link" type="url" id="custom_link" value="<?php echo esc_attr($elyncoct_custom_link); ?>" placeholder="<?php esc_attr_e('https://example.com/contact', 'elynt-contact-cta-button'); ?>">
+								<p class="ecb-help-text"><?php esc_html_e('Enter the full target URL including https://', 'elynt-contact-cta-button'); ?></p>
+							</div>
+						</div>
 					</div>
 
 					<div class="ecb-form-group">
@@ -129,10 +185,10 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 					</div>
 				</div>
 
-				<div class="ecb-form-group">
-					<label for="initial_message"><?php esc_html_e('Initial Message', 'elynt-contact-cta-button'); ?></label>
+				<div class="ecb-form-group" id="row_initial_message" style="<?php echo esc_attr($elyncoct_channel === 'custom_link' ? 'display:none;' : ''); ?>">
+					<label for="initial_message"><?php esc_html_e('Initial / Predefined Message', 'elynt-contact-cta-button'); ?></label>
 					<textarea name="initial_message" id="initial_message" rows="3" placeholder="<?php esc_attr_e('e.g. Hello! I would like more information.', 'elynt-contact-cta-button'); ?>"><?php echo esc_textarea($elyncoct_initial_message); ?></textarea>
-					<p class="ecb-help-text"><?php esc_html_e('Pre-filled message when the visitor opens WhatsApp.', 'elynt-contact-cta-button'); ?></p>
+					<p class="ecb-help-text"><?php esc_html_e('Pre-filled message when the visitor opens the chat (WhatsApp or Telegram).', 'elynt-contact-cta-button'); ?></p>
 				</div>
 			</div>
 		</div>
@@ -151,15 +207,32 @@ if (isset($elyncoct_public_taxonomies['post_format'])) {
 					<div class="ecb-layout-selector">
 						<label class="ecb-layout-option">
 							<input type="radio" name="button_layout" value="standard" <?php checked($elyncoct_layout, 'standard'); ?>>
-							<div class="ecb-layout-preview">
-								<span class="dashicons dashicons-whatsapp"></span> Text
+							<div class="ecb-layout-preview" id="ecb_preview_standard">
+								<span class="ecb-preview-icon">
+									<?php if ($elyncoct_channel === 'telegram') : ?>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor"><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg>
+									<?php elseif ($elyncoct_channel === 'custom_link') : ?>
+										<span class="dashicons dashicons-admin-links"></span>
+									<?php else : ?>
+										<span class="dashicons dashicons-whatsapp"></span>
+									<?php endif; ?>
+								</span>
+								<span class="ecb-preview-text"><?php esc_html_e('Text', 'elynt-contact-cta-button'); ?></span>
 							</div>
 							<span><?php esc_html_e('Standard (Icon + Text)', 'elynt-contact-cta-button'); ?></span>
 						</label>
 						<label class="ecb-layout-option">
 							<input type="radio" name="button_layout" value="icon_only" <?php checked($elyncoct_layout, 'icon_only'); ?>>
-							<div class="ecb-layout-preview ecb-layout-icon-only">
-								<span class="dashicons dashicons-whatsapp"></span>
+							<div class="ecb-layout-preview ecb-layout-icon-only" id="ecb_preview_round">
+								<span class="ecb-preview-icon">
+									<?php if ($elyncoct_channel === 'telegram') : ?>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor"><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg>
+									<?php elseif ($elyncoct_channel === 'custom_link') : ?>
+										<span class="dashicons dashicons-admin-links"></span>
+									<?php else : ?>
+										<span class="dashicons dashicons-whatsapp"></span>
+									<?php endif; ?>
+								</span>
 							</div>
 							<span><?php esc_html_e('Round (Icon Only)', 'elynt-contact-cta-button'); ?></span>
 						</label>

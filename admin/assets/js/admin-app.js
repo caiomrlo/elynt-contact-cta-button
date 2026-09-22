@@ -96,6 +96,54 @@ jQuery(document).ready(function ($) {
 	});
 
 	// Handlers for conditional toggling of form rows and fields
+	var telegramIconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor"><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg>';
+	var telegramRoundIconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18" height="18" fill="currentColor"><path d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg>';
+
+	$appContainer.on('change', 'input[name="button_channel"]', function () {
+		var channel = $(this).val();
+		$('.ecb-channel-option').removeClass('is-selected');
+		$(this).closest('.ecb-channel-option').addClass('is-selected');
+
+		if (channel === 'whatsapp') {
+			$('#row_whatsapp_number').slideDown(200);
+			$('#row_telegram_recipient').slideUp(200);
+			$('#row_custom_link').slideUp(200);
+			$('#row_initial_message').slideDown(200);
+
+			$('#ecb_preview_standard .ecb-preview-icon').html('<span class="dashicons dashicons-whatsapp"></span>');
+			$('#ecb_preview_round .ecb-preview-icon').html('<span class="dashicons dashicons-whatsapp"></span>');
+		} else if (channel === 'telegram') {
+			$('#row_whatsapp_number').slideUp(200);
+			$('#row_telegram_recipient').slideDown(200);
+			$('#row_custom_link').slideUp(200);
+			$('#row_initial_message').slideDown(200);
+
+			$('#ecb_preview_standard .ecb-preview-icon').html(telegramIconSvg);
+			$('#ecb_preview_round .ecb-preview-icon').html(telegramRoundIconSvg);
+		} else if (channel === 'custom_link') {
+			$('#row_whatsapp_number').slideUp(200);
+			$('#row_telegram_recipient').slideUp(200);
+			$('#row_custom_link').slideDown(200);
+			$('#row_initial_message').slideUp(200);
+
+			$('#ecb_preview_standard .ecb-preview-icon').html('<span class="dashicons dashicons-admin-links"></span>');
+			$('#ecb_preview_round .ecb-preview-icon').html('<span class="dashicons dashicons-admin-links"></span>');
+		}
+
+		// Suggest matching default color if on a brand new button and still using defaults
+		var btnId = parseInt($('input[name="id"]').val(), 10) || 0;
+		if (btnId === 0) {
+			var currentColor = $('#bg_color').val().toLowerCase();
+			if (channel === 'telegram' && (currentColor === '#25d366' || currentColor === '#4f46e5')) {
+				$('#bg_color').val('#229ED9').trigger('change');
+			} else if (channel === 'custom_link' && (currentColor === '#25d366' || currentColor === '#229ed9')) {
+				$('#bg_color').val('#4f46e5').trigger('change');
+			} else if (channel === 'whatsapp' && (currentColor === '#229ed9' || currentColor === '#4f46e5')) {
+				$('#bg_color').val('#25D366').trigger('change');
+			}
+		}
+	});
+
 	$appContainer.on('change', '#button_type', function () {
 		if ($(this).val() === 'inline') {
 			$('#row_button_position').slideUp(200);
@@ -442,30 +490,56 @@ jQuery(document).ready(function ($) {
 		$spinner.addClass('is-active');
 		$messages.html('');
 
-		// Get full international number from intl-tel-input
+		var channel = $form.find('input[name="button_channel"]:checked').val() || 'whatsapp';
 		var fullNumber = '';
-		if (iti) {
-			// Validate the phone number using intl-tel-input API before submitting
-			if (!iti.isValidNumber()) {
+
+		if (channel === 'whatsapp') {
+			if (iti) {
+				if (!iti.isValidNumber()) {
+					$submitBtn.prop('disabled', false);
+					$spinner.removeClass('is-active');
+					$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a valid phone number.</div>');
+					return;
+				}
+				fullNumber = iti.getNumber().replace('+', '');
+			} else {
+				fullNumber = $('#whatsapp_number').val().replace(/\D/g, '');
+				if (!fullNumber) {
+					$submitBtn.prop('disabled', false);
+					$spinner.removeClass('is-active');
+					$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a WhatsApp phone number.</div>');
+					return;
+				}
+			}
+		} else if (channel === 'telegram') {
+			var tgRecipient = ($('#telegram_recipient').val() || '').trim().replace(/^[@+]+/, '');
+			$('#telegram_recipient').val(tgRecipient);
+			if (!tgRecipient) {
 				$submitBtn.prop('disabled', false);
 				$spinner.removeClass('is-active');
-				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a valid phone number.</div>');
+				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a Telegram phone number or username.</div>');
 				return;
 			}
-			fullNumber = iti.getNumber().replace('+', '');
-		} else {
-			fullNumber = $('#whatsapp_number').val().replace(/\D/g, '');
+		} else if (channel === 'custom_link') {
+			var customLink = ($('#custom_link').val() || '').trim();
+			if (!customLink) {
+				$submitBtn.prop('disabled', false);
+				$spinner.removeClass('is-active');
+				$messages.html('<div class="ecb-notice ecb-notice-error"><span class="dashicons dashicons-warning"></span> Please enter a destination URL.</div>');
+				return;
+			}
 		}
 
 		var formData = $form.serializeArray();
 		
-		// Replace the number with the full international version
-		formData = formData.map(function(item) {
-			if (item.name === 'whatsapp_number') {
-				item.value = fullNumber;
-			}
-			return item;
-		});
+		if (channel === 'whatsapp') {
+			formData = formData.map(function(item) {
+				if (item.name === 'whatsapp_number') {
+					item.value = fullNumber;
+				}
+				return item;
+			});
+		}
 
 		formData.push({ name: 'action', value: 'elyncoct_save_button' });
 		formData.push({ name: 'nonce', value: elyncoct_admin.nonce });

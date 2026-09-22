@@ -1,6 +1,6 @@
 # Elynt Contact CTA Button
 
-WordPress plugin for creating and managing floating and inline Call-to-Action WhatsApp button.
+WordPress plugin for creating and managing floating and inline Call-to-Action buttons for **WhatsApp**, **Telegram**, and **Custom Links**.
 
 ---
 

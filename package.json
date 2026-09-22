@@ -1,7 +1,7 @@
 {
   "name": "elynt-contact-cta-button",
-  "version": "1.0.0",
-  "description": "WhatsApp CTA button generator for WordPress with modern AJAX admin interface.",
+  "version": "1.4.1",
+  "description": "WhatsApp, Telegram, and Custom Link CTA button generator for WordPress with modern AJAX admin interface.",
   "private": true,
   "scripts": {
     "lint:js": "wp-scripts lint-js admin/assets/js",

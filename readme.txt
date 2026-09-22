@@ -1,33 +1,35 @@
 === Elynt Contact CTA Button ===
 Contributors: caiomrlo
 Donate link: https://github.com/caiomrlo/
-Tags: whatsapp, click to chat, whatsapp chat, floating button, contact button
+Tags: whatsapp, click to chat, telegram, custom link, floating button, contact button
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Create beautiful, conversion-focused WhatsApp contact buttons, floating chat widgets, and click-to-chat CTAs with advanced targeting.
+Create beautiful, conversion-focused WhatsApp, Telegram, and Custom Link contact buttons, floating chat widgets, and click-to-chat CTAs with advanced targeting.
 
 == Description ==
 
-Transform your website traffic into direct sales and leads with the **Elynt Contact CTA Button**. This lightweight and professional WordPress plugin enables you to add beautiful, high-converting WhatsApp chat buttons and floating call-to-action (CTA) widgets in seconds. 
+Transform your website traffic into direct sales and leads with the **Elynt Contact CTA Button**. This lightweight and professional WordPress plugin enables you to add beautiful, high-converting WhatsApp chat buttons, Telegram contact buttons, and Custom Link floating call-to-action (CTA) widgets in seconds. 
 
-Whether you want a global floating WhatsApp button or an inline chat box embedded in your blog posts, this plugin gives you complete control over your customer communication channels.
+Whether you want a global floating WhatsApp or Telegram button, or an inline CTA button embedded in your blog posts, this plugin gives you complete control over your customer communication channels.
 
-= 🚀 Optimized for Conversions & Sales =
-With instant access to WhatsApp, you reduce friction for prospective customers, boosting conversion rates and driving more leads directly to your phone number.
+= 🚀 Optimized for Conversions & Multi-Channel Sales =
+Connect with prospective customers through their preferred channel: WhatsApp, Telegram, or any custom destination URL. Reduce friction, boost conversion rates, and drive more leads directly to your business.
 
 = 🎨 Fully Customizable =
-This plugin allows you to easily change the appearance of the button by customizing the color, size, etc.
+Easily customize the appearance of each button: choose colors, dimensions, borders, and position, with responsive mobile overrides.
 
 ### Key Features:
+*   **Multiple Button Types & Channels:** Choose between **WhatsApp** (international phone number with dial code selector), **Telegram** (phone or username with predefined message), or **Custom Link** (any destination URL).
 *   **Two Layout Types:** Choose between **Standard (Icon + Text)** to encourage clicks, or **Round (Icon Only)** for a minimalist design.
-*   **Flexible Placements:** Display buttons as **Fixed/Floating** widgets in the bottom-left or bottom-right, or place them as **Inline** elements anywhere using shortcodes.
-*   **Advanced Display Targeting:** Show buttons globally, or restrict them to specific pages, entire post types, or select posts manually using autocomplete search targeting.
-*   **Pre-filled Initial Messages:** Set custom default messages so users can start conversations with predefined text (e.g., "Hello, I would like more information about your services!").
-*   **Custom Styling & Branding:** Change background colors, text colors, icon size (px), and font size (px) to perfectly fit your theme.
+*   **Flexible Placements:** Display buttons as **Fixed/Floating** widgets (bottom-left, bottom-right, or bottom-center), or place them as **Inline** elements anywhere using shortcodes.
+*   **Advanced Display Targeting:** Show buttons globally, or restrict them to specific post types, taxonomy archives, or select posts manually using autocomplete search targeting.
+*   **Pre-filled Initial Messages:** Set custom default messages for WhatsApp and Telegram so users can start conversations instantly with predefined text.
+*   **Responsive Mobile Customization:** Configure mobile-specific dimensions and positions for smaller screens (≤ 768px).
+*   **Custom Styling & Branding:** Change background colors, text/icon colors, icon size (px), font size (px), and border styling to perfectly fit your theme.
 
 == Frequently Asked Questions ==
 
@@ -54,6 +56,10 @@ No. Elynt Contact CTA Button is optimized for speed. It uses custom database tab
 2. screenshot-2.png
 
 == Changelog ==
+
+= 1.4.1 =
+* Feature: Added support for Telegram and Custom Link buttons alongside WhatsApp.
+* UI/UX: Added visual button action type selector in the admin editor and action type indicators in the buttons list.
 
 = 1.4.0 =
 * Feature: Added responsive mobile customization options (custom font size, icon size, padding, and round button size for mobile devices).

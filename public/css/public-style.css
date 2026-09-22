@@ -17,7 +17,7 @@
 
 .ecb-whatsapp-button:hover,
 .ecb-whatsapp-button:focus {
-	background-color: #1ebe57;
+	filter: brightness(0.92);
 	transform: translateY(-2px);
 	color: var(--ecb-text-color, #fff);
 }

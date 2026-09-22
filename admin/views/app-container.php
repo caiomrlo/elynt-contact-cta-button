@@ -10,7 +10,7 @@ if (!defined('WPINC')) {
 		<div class="ecb-app-logo"></div>
 		<div class="ecb-app-header-content">
 			<div class="ecb-app-title">Elynt Contact CTA Button</div>
-			<p class="ecb-app-subtitle">Create and manage professional WhatsApp CTA buttons with ease.</p>
+			<p class="ecb-app-subtitle">Create and manage professional WhatsApp, Telegram, and Custom Link CTA buttons with ease.</p>
 		</div>
 	</div>
 

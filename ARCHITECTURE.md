@@ -84,11 +84,14 @@ The plugin follows a modular pattern, isolating database operations from the pre
 *   `type`: Defines the rendering behavior (`fixed` or `inline`).
 *   `status`: Toggle visibility (`active` or `inactive`).
 *   `options`: A serialized JSON string containing specific configurations:
+    *   `channel` (string): Button action type/channel (`whatsapp`, `telegram`, `custom_link`).
     *   `text` (string): Button Call-to-Action text.
     *   `number` (string): WhatsApp phone number in international format.
+    *   `telegram_recipient` (string): Telegram phone number or username.
+    *   `custom_link` (string): Target destination URL for custom link buttons.
     *   `position` (string): Fixed layout position on screen (`left`, `right`, `center`).
     *   `layout` (string): Visual layout style (`standard` or `icon_only`).
-    *   `initial_message` (string): Pre-filled text message for the WhatsApp chat.
+    *   `initial_message` (string): Pre-filled text message for WhatsApp or Telegram chat.
     *   `bg_color` / `text_color` / `border_color` (string): Color hex codes.
     *   `icon_size` / `font_size` / `border_size` (int): Element dimensions in pixels.
     *   `enable_mobile_settings` (bool): Toggle for responsive mobile customization.
