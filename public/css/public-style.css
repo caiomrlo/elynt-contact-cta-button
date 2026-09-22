@@ -7,7 +7,7 @@
 	padding: 12px 20px;
 	border-radius: 50px;
 	font-family: sans-serif;
-	font-weight: bold;
+	font-weight: 700;
 	font-size: var(--ecb-font-size, 16px);
 	border: var(--ecb-border-size, 0px) solid var(--ecb-border-color, transparent);
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -75,6 +75,7 @@
 
 /* Responsive Mobile Customization (<= 768px) */
 @media (max-width: 768px) {
+
 	.ecb-whatsapp-button {
 		font-size: var(--ecb-font-size-mobile, var(--ecb-font-size, 16px));
 		border-width: var(--ecb-border-size-mobile, var(--ecb-border-size, 0px));

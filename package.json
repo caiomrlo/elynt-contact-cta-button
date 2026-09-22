@@ -1,0 +1,20 @@
+{
+  "name": "elynt-contact-cta-button",
+  "version": "1.0.0",
+  "description": "WhatsApp CTA button generator for WordPress with modern AJAX admin interface.",
+  "private": true,
+  "scripts": {
+    "lint:js": "wp-scripts lint-js admin/assets/js",
+    "lint:js:fix": "wp-scripts lint-js --fix admin/assets/js",
+    "lint:css": "wp-scripts lint-style \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
+    "lint:css:fix": "wp-scripts lint-style --fix \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
+    "lint": "npm run lint:js && npm run lint:css",
+    "format": "wp-scripts format admin/assets/js \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
+    "format:check": "wp-scripts format --check admin/assets/js \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
+    "test:unit:js": "wp-scripts test-unit-js",
+    "test": "npm run lint"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^35.0.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "plugin:@wordpress/eslint-plugin/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "jquery": true
+  },
+  "globals": {
+    "elyncoct_admin": "readonly",
+    "intlTelInput": "readonly"
+  },
+  "ignorePatterns": [
+    "admin/vendors/**",
+    "node_modules/**"
+  ]
+}

@@ -8,6 +8,9 @@
 
 # Development, Formatting & Linters
 .editorconfig
+.eslintrc*
+.stylelintrc*
+.prettierrc*
 phpcs.xml*
 phpstan.neon*
 phpunit.xml*
@@ -17,9 +20,11 @@ phpunit.xml*
 Dockerfile
 compose.yaml
 
-# Composer & Dependencies
+# Composer, Node & Dependencies
 composer.json
 composer.lock
+package.json
+package-lock.json
 vendor/
 node_modules/
 

@@ -28,6 +28,11 @@ phpstan.neon.dist export-ignore
 phpunit.xml.dist export-ignore
 composer.json export-ignore
 composer.lock export-ignore
+package.json export-ignore
+package-lock.json export-ignore
+.eslintrc* export-ignore
+.stylelintrc* export-ignore
+.prettierrc* export-ignore
 ARCHITECTURE.md export-ignore
 ROADMAP.md export-ignore
 AGENTS.md export-ignore
