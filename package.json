@@ -12,7 +12,15 @@
     "format": "wp-scripts format admin/assets/js \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
     "format:check": "wp-scripts format --check admin/assets/js \"admin/assets/css/**/*.css\" \"public/css/**/*.css\"",
     "test:unit:js": "wp-scripts test-unit-js",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose up -d --build",
+    "docker:logs": "docker compose logs -f",
+    "docker:restart": "docker compose restart",
+    "docker:reset": "docker compose down -v",
+    "docker:phpcs": "docker compose exec -w /var/www/html/wp-content/plugins/elynt-contact-cta-button wordpress phpcs",
+    "docker:phpcbf": "docker compose exec -w /var/www/html/wp-content/plugins/elynt-contact-cta-button wordpress phpcbf"
   },
   "devDependencies": {
     "@wordpress/scripts": "^35.0.0"

@@ -12,6 +12,8 @@ The environment includes **WordPress (PHP 8.3)**, **MySQL 8.4**, and **WP-CLI** 
 
 ```bash
 docker compose up -d
+# ou via npm:
+npm run docker:up
 ```
 
 ### 2. Access
